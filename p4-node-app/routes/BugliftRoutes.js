@@ -11,6 +11,19 @@ router.get('/users', ( request, response ) => {
         response.status( 200 ).send({ users: user })
     });
 })
+//POST Endpoint to create user
+router.post('/users', ( request, response ) => {
+    const newUser = new User();
+    newUser.username = request.body.username;
+    newUser.email = request.body.email;
+    newUser.password = request.body.password;
+    newUser.role = request.body.role;
+
+    newUser.save().then( dbResponse => {
+        response.status( 201 ).send({ dbResponse })
+        console.log( dbResponse );
+    });
+});
 
 
 //Projects Endpoint
