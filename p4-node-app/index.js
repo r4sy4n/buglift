@@ -18,7 +18,7 @@ app.use( cors() );
 app.use( baseURL, UserRoutes );
 app.use( baseURL, ProjectRoutes );
 app.use( baseURL, TicketRoutes );
-app.use( baseURL, authRoutes );
+app.use( `${baseURL}/auth`, authRoutes );
 
 app.get( '/', ( request, response ) => {
     response.send({ message: `Express server for p4-node-app`});
