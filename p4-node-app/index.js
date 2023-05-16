@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const PORT = 8000;
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const helmet = require('helmet');
 
 mongoose.connect('mongodb+srv://russellramiro:08i3Zkj66NWRIaxE@cluster0.rz5gupu.mongodb.net/bugliftdb');
 const baseURL = '/api/v1';
@@ -14,6 +16,8 @@ const authRoutes = require('./routes/auth');
 const app = express();
 app.use( bodyParser.json() );
 app.use( cors() );
+app.use( morgan('dev') );
+app.use( helmet() );
 
 app.use( baseURL, UserRoutes );
 app.use( baseURL, ProjectRoutes );

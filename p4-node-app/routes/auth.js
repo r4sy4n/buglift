@@ -4,6 +4,7 @@ const User = require('../models/UserModel');
 const bcrypt = require('bcrypt');
 
 
+
 //POST Endpoint to create user
 router.post('/register', ( request, response ) => {
     User.find({ $or: [ { username: request.body.username }, { email: request.body.email } ]}).then(dbResponse => {
@@ -24,6 +25,9 @@ router.post('/register', ( request, response ) => {
 //POST Endpoint to login user
 router.post('/login', ( request, response ) => {
     User.findOne({ username: request.body.username }).then( dbResponse => {
+        if( !dbResponse ){
+            return response.status( 404 ).send({ error: 'Username does not exist' });
+        }
         bcrypt.compare( request.body.password, dbResponse.password ).then( isValid => {
             if( !isValid ){
                 response.status( 400 ).send({ error: 'Please enter correct username or password!' });
