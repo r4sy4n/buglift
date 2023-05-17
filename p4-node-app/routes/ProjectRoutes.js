@@ -7,7 +7,20 @@ const Project = require('../models/ProjectModel');
 //GET Endpoint to get all projects
 router.get('/projects', ( request, response ) => {
     Project.find().then( project => {
-        response.status( 200 ).send({ projects: project })
+        response.status( 200 ).send({ projects: project });
+    });
+});
+
+//GET Endpoint to get specific project
+router.get('/projects/:projectid', ( request, response ) => {
+    Project.findOne({ _id: request.params.projectid }).then( dbResponse => {
+        if( dbResponse ){
+            response.status( 200 ).send({ dbResponse });
+        }else{
+            response.status( 404 ).send({ error: 'No project found' });
+        };
+    }).catch( (e) => {
+            response.status( 404 ).send({ error: e.message });
     });
 });
 
@@ -18,13 +31,19 @@ router.post('/projects', ( request, response ) => {
             //  db has record of response
             response.status( 400 ).send({ error: 'Please use unique project name' });
         }else{
-                const newUser = new Project({ projectName: request.body.projectName, description: request.body.description });
-                newUser.save().then( dbResponse => {
+                const newProject = new Project({ projectName: request.body.projectName, description: request.body.description });
+                newProject.save().then( dbResponse => {
                     response.status( 201 ).send({ dbResponse });
                 });
         };
-    })
+    });
 });
 
+//PUT Endpoint to edit project
+router.put('/projects/:projectid', ( request, response ) => {
+    Project.findByIdAndUpdate( request.params.projectid, request.body, { new: true } ).then( dbResponse => {;
+        response.status( 200 ).send({ dbResponse });
+    });
+});
 
 module.exports = router;

@@ -11,10 +11,10 @@ router.get('/users', ( request, response ) => {
     });
 });
 
+//GET Endpoint to get specific user
 router.get('/users/:userid', verify, ( request, response ) => {
     User.findOne({ _id: request.params.userid }, { password: 0 }).then( dbResponse => {
         if( dbResponse ){
-            console.log(dbResponse)
             response.status( 200 ).send({ user: dbResponse.username });
         }else{
             response.status( 404 ).send({ error: 'No user found' });
