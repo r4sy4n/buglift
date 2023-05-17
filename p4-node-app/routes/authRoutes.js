@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/UserModel');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const SECRET = 'BUGLIFT';
 
-
+const verify = require('../middlewares/auth');
 
 //POST Endpoint to create user
 router.post('/register', ( request, response ) => {
@@ -13,7 +15,7 @@ router.post('/register', ( request, response ) => {
             response.status( 400 ).send({ error: 'Please use unique username or email' });
         }else{
              bcrypt.hash( request.body.password, 10 ).then((hash, err) => {
-                const newUser    = new User({ username: request.body.username, email: request.body.email,  password: hash });
+                const newUser = new User({ username: request.body.username, email: request.body.email,  password: hash });
                 newUser.save().then( dbResponse => {
                     response.status( 201 ).send({ dbResponse });
                 });
@@ -32,7 +34,9 @@ router.post('/login', ( request, response ) => {
             if( !isValid ){
                 response.status( 400 ).send({ error: 'Please enter correct username or password!' });
             }else{
-                response.status( 200 ).send({ message: 'Login Successful' });
+                //create token
+                const token = jwt.sign( { id: dbResponse._id, email: dbResponse.email }, SECRET );
+                response.status( 200 ).send({ message: 'Login Successful', token: token });
             };
         });
     });

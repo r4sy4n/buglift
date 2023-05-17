@@ -11,7 +11,7 @@ const baseURL = '/api/v1';
 const UserRoutes = require('./routes/UserRoutes');
 const ProjectRoutes = require('./routes/ProjectRoutes');
 const TicketRoutes = require('./routes/TicketRoutes');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 app.use( bodyParser.json() );
