@@ -1,8 +1,9 @@
-import { useState, createContext } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { Banner } from '../components';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   display: grid;
@@ -55,74 +56,74 @@ const Register = () => {
         setName( event.target.value );
         setUsernameError('');
         setSuccessMessage('');
-    }
+    };
     const emailChangeHandler = ( event ) => {
         setEmail( event.target.value );
         setUsernameError('');
         setSuccessMessage('');
-    }
+    };
     //function to handle changes in password input field
     const passwordChangeHandler = ( event ) => {
         setPassword( event.target.value );
         setPasswordError('');
         setSuccessMessage('');
-    }
+    };
     //function to handle changes in confirm password input field
     const confirmPasswordChangeHandler = ( event ) => {
         setConfirmpassword( event.target.value );
         setConfirmPasswordError('');
         setSuccessMessage('');
-    }
+    };
+    const submitHandler = (event) => {
+        event.preventDefault();
+        const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[!\@\-\#\$\.\%\&\*])(?=.*[a-zA-Z]).{8,}$/;   
 
-    const submitHandler = ( event ) => {
-            event.preventDefault();  
-        const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[!\@\-\#\$\.\%\&\*])(?=.*[a-zA-Z]).{8,}$/;          
-        
-        
-        if(regex.test(pwd) && (isRegistered && email === '' && confirmpwd === '') && name !== ''){ // If all inputs are valid, clear error messages and show success message
-            if (localStorage.getItem('name', name) === 'admin'){
-                setTimeout(() =>{
-                  navigate('/'); 
-                }, 600);
+        if(regex.test(pwd) && pwd === confirmpwd && (!isRegistered && name !== '') && email !== ''){
+            axios.post( `http://localhost:8000/api/v1/auth/register`, { username: name, email: email, password: pwd } ).then( response => {
+                console.log(response);
                 setName('');
                 setEmail('');
                 setPassword('');
                 setConfirmpassword('');
-                toast.success('Login Successful!');
-            }else if (localStorage.getItem('name', name) !== 'admin' && localStorage.getItem('name', name) === name){
-                toast.error('Admin Only');
-            }
-            else if (localStorage.getItem('name', name) !== 'admin' && localStorage.getItem('name', name) !== name){
-                toast.error('Not Yet Registered');
-            }
-            // setSuccessMessage('Login Successful!');
-           
-        }else if(regex.test(pwd) && pwd === confirmpwd && (!isRegistered && name !== '') && email !== ''){
-            // setSuccessMessage('Registration Successful!');
-            setName('');
-            setEmail('');
-            setPassword('');
-            setConfirmpassword('');
-            localStorage.setItem('name', name);
-            toast.success('Registration Successful!');
-            setIsRegistered( !isRegistered )
-        }else if((!isRegistered && email === '') || pwd === '' || confirmpwd === '' || name === ''){ // Validate username, password and confirm password field
-            // setSuccessMessage('All fields are required!');
+                toast.success('Registration Successful!');
+                setIsRegistered( !isRegistered );
+            }).catch(error => {
+                console.log(error);
+            })
+        }else if(regex.test(pwd) && (isRegistered && email === '' && confirmpwd === '') && name !== ''){
+            axios.post( `http://localhost:8000/api/v1/auth/login`, { username: name, password: pwd } ).then( response => {
+                console.log(response)
+                    setName('');
+                    setEmail('');
+                    setPassword('');
+                    setConfirmpassword('');
+                    toast.success('Login Successful!');
+                    localStorage.setItem('token', response.data.token)
+                    setTimeout(() =>{
+                        navigate('/'); 
+                    }, 600);                
+            }).catch(error => {
+                toast.error('Wrong Password');
+                console.log(error);
+            });
+        }else if((isRegistered && email === '' && confirmpwd === '') && pwd !== '' && name !== ''){  
+            //Validate username, password and confirm password field
+            toast.error('Wrong Password');
+        }else if((!isRegistered && email === '') || pwd === '' || confirmpwd === '' || name === ''){  
+            //Validate username, password and confirm password field
             toast.error('All fields are required!');
-        }else if(!regex.test(pwd)){ // Validate password
-            // setPasswordError('Password must be at least 8 characters and include uppercase and lowercase letters, numbers, and special characters.');
+        }else if(!regex.test(pwd)){ 
+            // Validate password
             toast.warn('Password must be at least 8 characters and include uppercase and lowercase letters, numbers, and special characters.');
-        }else if(confirmpwd !== pwd){ // Validate confirm password
-            // setConfirmPasswordError('Password do not match');
+        }else if(confirmpwd !== pwd){ 
+            // Validate confirm password
             toast.warn('Password do not match');
-        }
+        };
     };
     const toggleMember = () => {
         setIsRegistered( !isRegistered );
         setSuccessMessage('');
     };
-    
-    
     
     return(
         <Wrapper className='full-page'>

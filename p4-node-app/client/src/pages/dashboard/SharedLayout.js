@@ -2,6 +2,7 @@ import { useState, createContext, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import {Navbar, Sidebar, Smallsidebar} from '../../components/index';
 import styled from 'styled-components';
+import axios from 'axios';
 export const SharedLayoutContext = createContext();
 
 const Wrapper = styled.section`
@@ -44,14 +45,27 @@ const Wrapper = styled.section`
 
 const SharedLayout = () => {
   const [showSidebar, setShowsidebar] = useState(true);
-  const isAuthenticated = localStorage.getItem('name'); 
+  // const isAuthenticated = localStorage.getItem('name'); 
   const navigate = useNavigate();
+  const token = localStorage.getItem('token'); 
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
 
   useEffect(() => {
-  if(!isAuthenticated){ 
-    navigate('/landing'); 
-    }
+    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+      console.log(response)
+    })
   }, []);
+
+  // useEffect(() => {
+  // if(!isAuthenticated){ 
+  //   navigate('/landing'); 
+  //   }
+  // }, []);
   
   return (
     <SharedLayoutContext.Provider value={{showSidebar, setShowsidebar}}>

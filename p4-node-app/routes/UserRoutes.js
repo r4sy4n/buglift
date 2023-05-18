@@ -5,7 +5,7 @@ const verify = require('../middlewares/auth');
 
 //Users Endpoint
 //GET Endpoint to get all users
-router.get('/users', ( request, response ) => {
+router.get('/users', verify, ( request, response ) => {
     User.find().then( user => {
         response.status( 200 ).send({ users: user })
     });

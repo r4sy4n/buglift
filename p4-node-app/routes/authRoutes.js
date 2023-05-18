@@ -28,15 +28,17 @@ router.post('/register', ( request, response ) => {
 router.post('/login', ( request, response ) => {
     User.findOne({ username: request.body.username }).then( dbResponse => {
         if( !dbResponse ){
+            console.log('Username does not exist')
             return response.status( 404 ).send({ error: 'Username does not exist' });
         }
         bcrypt.compare( request.body.password, dbResponse.password ).then( isValid => {
             if( !isValid ){
+            console.log('wrong')
                 response.status( 400 ).send({ error: 'Please enter correct username or password!' });
             }else{
                 //create token
                 const token = jwt.sign( { id: dbResponse._id, email: dbResponse.email }, SECRET );
-                response.status( 200 ).send({ message: 'Login Successful', token: token });
+                response.status( 200 ).send({ message: 'Login Successful', token: token, role: dbResponse.role });
             };
         });
     });

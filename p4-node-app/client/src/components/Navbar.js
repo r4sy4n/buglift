@@ -81,7 +81,7 @@ const Navbar = () => {
     toast.success('Logout Successful')
       setTimeout(() =>{
         navigate('/landing');  
-        localStorage.removeItem('name');
+        localStorage.removeItem('token');
       }, 600);
   }
   return (
