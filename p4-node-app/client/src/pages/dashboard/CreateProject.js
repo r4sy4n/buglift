@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../App';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -99,22 +100,27 @@ const CreateProject = () => {
     if (!state.projectName || !state.description) {
       toast.error('All fields are required!');
     } else {
-      addProject();
-      toast.success('Project Created');
-      setTimeout(() => {
-        navigate('/projects');
-      }, 600);
+      // addProject();
+      axios.post( 'http://localhost:8000/api/v1/projects', { projectName: state.projectName, description: state.description } ).then( response => {
+        console.log({response})
+        toast.success('Project Created');
+        setTimeout(() => {
+          navigate('/projects');
+        }, 600);
+      }).catch( error => {
+        toast.error(error.response.data.error)
+      })
     }
   };
 
-  const addProject = () => {
-    let newEntry = {
-      id: uuidv4(),
-      name: state.projectName,
-      description: state.description,
-    };
-    setProjects([...projects, newEntry]);
-  };
+  // const addProject = () => {
+  //   let newEntry = {
+  //     id: uuidv4(),
+  //     name: state.projectName,
+  //     description: state.description,
+  //   };
+  //   setProjects([...projects, newEntry]);
+  // };
 
   return (
     <Wrapper>

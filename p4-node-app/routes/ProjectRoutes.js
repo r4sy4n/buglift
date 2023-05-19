@@ -35,8 +35,8 @@ router.post('/projects', ( request, response ) => {
                 newProject.save().then( dbResponse => {
                     response.status( 201 ).send({ dbResponse });
                 });
-        };
-    });
+        }
+    })
 });
 
 //PUT Endpoint to edit project

@@ -82,6 +82,7 @@ const Navbar = () => {
       setTimeout(() =>{
         navigate('/landing');  
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
       }, 600);
   }
   return (

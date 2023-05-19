@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from "../../App";
+import axios from "axios";
 
 
 const Wrapper = styled.section`
@@ -109,7 +110,14 @@ p:hover {
 const Tickets = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const navigate = useNavigate();
-  const {tickets} = useContext(AppContext);
+  // const {tickets} = useContext(AppContext);
+  const [tickets, setTickets] = useState([]);
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+      console.log(response)
+      setTickets(response.data.tickets)
+    })
+  }, []);
 
   const clickHandle = (e) => {
     e.preventDefault();
@@ -199,13 +207,13 @@ const Tickets = () => {
                 <tbody>
                   {filteredTickets.map((ticket, index) => (
                     <tr key={index}>
-                      <td>{ticket.title}</td>
-                      <td>{ticket.project}</td>
+                      <td>{ticket.ticketTitle}</td>
+                      <td>{ticket.fromProject.projectName}</td>
                       <td>{ticket.submittedBy}</td>
                       <td>{typeBadge(ticket.ticketType)}</td>
                       <td>{statusBadge(ticket.ticketStatus)}</td>
                       <td>{priorityBadge(ticket.ticketPriority)}</td>
-                      <td><p onClick={() => handleDetail(ticket.id)}>More Details</p></td>
+                      <td><p onClick={() => handleDetail(ticket._id)}>More Details</p></td>
                     </tr>
                   ))}
                 </tbody>

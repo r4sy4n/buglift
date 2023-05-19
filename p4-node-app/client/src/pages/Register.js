@@ -88,27 +88,39 @@ const Register = () => {
                 toast.success('Registration Successful!');
                 setIsRegistered( !isRegistered );
             }).catch(error => {
-                console.log(error);
+                toast.error(error.response.data.error);
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmpassword('');
             })
         }else if(regex.test(pwd) && (isRegistered && email === '' && confirmpwd === '') && name !== ''){
             axios.post( `http://localhost:8000/api/v1/auth/login`, { username: name, password: pwd } ).then( response => {
                 console.log(response)
-                    setName('');
-                    setEmail('');
-                    setPassword('');
-                    setConfirmpassword('');
-                    toast.success('Login Successful!');
-                    localStorage.setItem('token', response.data.token)
-                    setTimeout(() =>{
-                        navigate('/'); 
-                    }, 600);                
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmpassword('');
+                toast.success(response.data.message);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('role', response.data.role);
+                setTimeout(() =>{
+                    navigate('/'); 
+                }, 600); 
             }).catch(error => {
-                toast.error('Wrong Password');
-                console.log(error);
+                toast.error(error.response.data.error);
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmpassword('');
             });
         }else if((isRegistered && email === '' && confirmpwd === '') && pwd !== '' && name !== ''){  
             //Validate username, password and confirm password field
-            toast.error('Wrong Password');
+            toast.error('Please enter correct username or password');
+            setName('');
+            setEmail('');
+            setPassword('');
+            setConfirmpassword('');
         }else if((!isRegistered && email === '') || pwd === '' || confirmpwd === '' || name === ''){  
             //Validate username, password and confirm password field
             toast.error('All fields are required!');

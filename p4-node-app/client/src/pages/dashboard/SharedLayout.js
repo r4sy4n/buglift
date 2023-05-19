@@ -48,17 +48,19 @@ const SharedLayout = () => {
   // const isAuthenticated = localStorage.getItem('name'); 
   const navigate = useNavigate();
   const token = localStorage.getItem('token'); 
-
+  const role = localStorage.getItem('role');
+  const [isAdmin, setIsAdmin] = useState(role);
+  
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
     }
-  }
+  };
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
-      console.log(response)
-    })
+        console.log(response.data)
+    });
   }, []);
 
   // useEffect(() => {
@@ -68,7 +70,7 @@ const SharedLayout = () => {
   // }, []);
   
   return (
-    <SharedLayoutContext.Provider value={{showSidebar, setShowsidebar}}>
+    <SharedLayoutContext.Provider value={{showSidebar, setShowsidebar, isAdmin, setIsAdmin}}>
       <Wrapper>
           <main className='dashboard'>
               <Smallsidebar />
@@ -76,7 +78,7 @@ const SharedLayout = () => {
               <div>
                   <Navbar />
                   <div className={showSidebar ? 'dashboard-page' : 'move-side'}>
-                      <Outlet />
+                      <Outlet/>
                   </div>
               </div>
           </main>
