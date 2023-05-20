@@ -7,9 +7,19 @@ const Navlinks = (close) => {
       close.toggle();
     }
   }
+  const role = localStorage.getItem('role');
   return (
     <div className='nav-links'>
-      {links.map((link) => {
+      {links.filter((link) => {
+        if (role === 'admin') {
+          return link.text.toLowerCase() !== 'user profile';
+        } else if (role === 'user') {
+          return link.text.toLowerCase() !== 'admin';
+        } else {
+          return link.text.toLowerCase() !== 'admin';
+          // return true; // Include all other links when role is not 'admin' or 'user'
+        }
+      }).map((link) => {
         const { text, path, id, icon } = link;
         return (
           <NavLink
