@@ -51,7 +51,7 @@ const Wrapper = styled.section`
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_NAME_VALUES':
-      return { ...state, fromProjectValues: action.payload };
+      return { ...state, projectNameValues: action.payload };
     case 'SET_TYPE_VALUES':
       return { ...state, typeValues: action.payload };
     case 'SET_PRIORITY_VALUES':
@@ -73,20 +73,20 @@ const CreateTicket = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const {tickets, setTickets} = useContext(AppContext);
   const {projects} = useContext(AppContext);
-  
+  console.log(projects)
   const navigate = useNavigate();
  
   const initialState = {
     ticketType: ['Bugs/Error', 'Feature Request', 'Task'],
     ticketPriority: ['Low', 'Medium', 'High'],
     ticketStatus: ['Open'],
-    fromProjectValues: 'Project A',
+    projectNameValues: projects[0]._id,
     typeValues: 'Bugs/Error',
     priorityValues: 'High',
     statusValues: 'Open',
     ticketTitle: '',
     ticketDescription: '',
-    submittedBy: 'Admin',
+    submittedBy: localStorage.getItem('id'),
   };
   // const {id} = useParams();
 
@@ -125,15 +125,20 @@ const CreateTicket = () => {
       toast.error('All fields are required!');
     }
     if (state.ticketTitle && state.ticketDescription && state.submittedBy) {
-      axios.post( 'http://localhost:8000/api/v1/tickets', { ticketTitle: state.ticketTitle, fromProject: state.projectName, ticketDescription: state.ticketDescription, ticketPriority: state.ticketPriority, ticketType: state.ticketType } ).then( response => {
-          console.log(response)
+
+        axios.post( 'http://localhost:8000/api/v1/tickets', { 
+          "ticketTitle": state.ticketTitle, 
+          "fromProject": state.projectNameValues, 
+          "ticketDescription": state.ticketDescription, 
+          "ticketPriority": state.priorityValues, 
+          "ticketType": state.typeValues,
+          "submittedBy": state.submittedBy } ).then( response => {
+            console.log(response)
+      
         //   toast.success('Ticket Created');
         // setTimeout(() => {
         //   navigate('/tickets');
         // }, 600);
-      }).catch( error => {
-          console.log(error)
-
       })
 
       // addTicket();
@@ -171,7 +176,7 @@ const CreateTicket = () => {
             <div className='form-label'>Project Name</div>
               <select className='form-select' value={state.projectNameValues} onChange={handleChange}>
                 {
-                  projects.map((project, index) =><option key={index} value={project.projectName}>{project.projectName}</option>)
+                  projects.map((project, index) =><option key={index} value={project._id}>{project.projectName}</option>)
                 }        
               </select>
           </div>
@@ -213,13 +218,6 @@ const CreateTicket = () => {
               }        
             </select>
           </div>
-          <label htmlFor='submitted-by' className='form-label'>Submitted by</label>
-          <input 
-            type='text' 
-            id='submitted-by' 
-            value={state.submittedBy}  
-            className='form-input'
-            onChange={ submittedByChange } disabled></input>
           <button type='submit' className='btn btn-block'>Create Ticket</button>  
         </div>
       </form>

@@ -103,6 +103,7 @@ const Register = () => {
                 setConfirmpassword('');
                 toast.success(response.data.message);
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('id', response.data.id);
                 localStorage.setItem('role', response.data.role);
                 setTimeout(() =>{
                     navigate('/'); 

@@ -82,7 +82,7 @@ function App() {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
-      console.log(response)
+      // console.log(response)
     })
   }, []);
 

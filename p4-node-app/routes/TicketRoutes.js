@@ -32,7 +32,7 @@ router.post('/tickets', ( request, response ) => {
             response.status( 400 ).send({ error: 'Please use unique ticket title for this project' });
         }else{
             console.log(dbResponse)
-                const newTicket = new Ticket({ ticketTitle: request.body.ticketTitle, fromProject: request.body.fromProject, ticketDescription: request.body.ticketDescription, ticketPriority: request.body.ticketPriority, ticketType: request.body.ticketType });
+                const newTicket = new Ticket({ ticketTitle: request.body.ticketTitle, fromProject: request.body.fromProject, ticketDescription: request.body.ticketDescription, ticketPriority: request.body.ticketPriority, ticketType: request.body.ticketType, submittedBy: request.body.submittedBy });
                 newTicket.save().then( dbResponse => {
                     response.status( 201 ).send({ dbResponse });
                 });
