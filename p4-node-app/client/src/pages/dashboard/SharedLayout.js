@@ -47,21 +47,7 @@ const SharedLayout = () => {
   const [showSidebar, setShowsidebar] = useState(true);
   // const isAuthenticated = localStorage.getItem('name'); 
   const navigate = useNavigate();
-  const token = localStorage.getItem('token'); 
-  const role = localStorage.getItem('role');
-  const [isAdmin, setIsAdmin] = useState(role);
-  
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
-
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
-        console.log(response.data)
-    });
-  }, []);
+ 
 
   // useEffect(() => {
   // if(!isAuthenticated){ 
@@ -70,7 +56,7 @@ const SharedLayout = () => {
   // }, []);
   
   return (
-    <SharedLayoutContext.Provider value={{showSidebar, setShowsidebar, isAdmin, setIsAdmin}}>
+    <SharedLayoutContext.Provider value={{showSidebar, setShowsidebar}}>
       <Wrapper>
           <main className='dashboard'>
               <Smallsidebar />

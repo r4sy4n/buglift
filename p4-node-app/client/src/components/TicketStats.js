@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 const Wrapper = styled.section`
     padding: 2rem;
@@ -10,15 +9,7 @@ const Wrapper = styled.section`
     border: 2px solid #5D3891;
 `
 
-const TicketStats = () => {
-  const [tickets, setTickets] = useState([]);
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
-      console.log(response)
-      setTickets(response.data.tickets)
-    })
-  }, []);
-
+const TicketStats = ({tickets}) => {
   return (
     <Wrapper>
         <h1>{tickets.length}</h1>

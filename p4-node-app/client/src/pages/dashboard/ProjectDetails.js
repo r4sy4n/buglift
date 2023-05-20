@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -71,35 +70,17 @@ const Wrapper = styled.section`
   } 
 `
 const ProjectDetails = () => {
-  // const {projects, tickets} = useContext(AppContext);
-  const [projects, setProjects] = useState([]);
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      console.log(response)
-      setProjects(response.data.projects)
-    })
-  }, []);
-
-  const [tickets, setTickets] = useState([]);
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
-      console.log(response)
-      setTickets(response.data.tickets)
-    })
-  }, []);
-
+  const {projects, tickets} = useContext(AppContext);
   const navigate = useNavigate();
   const {id} = useParams();
   const handleDetail = (e) => {
     e.preventDefault();
     navigate('/projects');
   }
-
-
-  const filteredProjects = projects.filter(project => project._id === id);
+  const filteredProjects = projects.filter(project => project.id === id);
   const project = filteredProjects.length > 0 ? filteredProjects[0] : null;
 
-  const projectTickets = tickets.filter(ticket => ticket.project === project.projectName);
+  const projectTickets = tickets.filter(ticket => ticket.project === project.name);
 
   const handleDetailTickets = (id) => {
     navigate(`/ticketdetails/${id}`);
@@ -110,13 +91,13 @@ const ProjectDetails = () => {
         <h3>Project Details</h3>
         <span onClick={handleDetail}>Back to list</span>
         <section className='grid-item'>
-          {projects.filter(project => project._id === (id)).map(project => (
+          {projects.filter(project => project.id === (id)).map(project => (
             <div className='grid'>
-              <div className='flex-column' key={project._id}>
+              <div className='flex-column' key={project.id}>
                   <h4>Project Name</h4>
-                  <p>{project.projectName}</p>
+                  <p>{project.name}</p>
               </div>
-              <div className='flex-column' key={project.projectName}>
+              <div className='flex-column' key={project.name}>
                   <h4>Description</h4>
                   <p>{project.description}</p>
               </div>  
@@ -160,10 +141,10 @@ const ProjectDetails = () => {
                 <tbody>
                   {projectTickets.map((ticket, index) =>  (
                     <tr key={index}>
-                      <td>{ticket.ticketTitle}</td>
+                      <td>{ticket.title}</td>
                       <td>{ticket.submittedBy}</td>
                       <td>{ticket.ticketStatus}</td>
-                      <td><p className='more-details' onClick={() => handleDetailTickets(ticket._id)}>More Details</p></td>
+                      <td><p className='more-details' onClick={() => handleDetailTickets(ticket.id)}>More Details</p></td>
                     </tr>
                   ))}
                 </tbody>

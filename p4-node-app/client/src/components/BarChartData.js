@@ -1,21 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import axios from 'axios';
 
-const BarChartData = () => {
-  const [tickets, setTickets] = useState([]);
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
-      console.log(response)
-      setTickets(response.data.tickets)
-    })
-  }, [])
-  const [projects, setProjects] = useState([]);
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      setProjects(response.data.projects)
-    })
-  }, [])
+const BarChartData = ({tickets, projects}) => {
   const data = [
   { name: 'Projects', value: projects.filter(project => project).length },
   { name: 'Tickets', value: tickets.filter(ticket => ticket).length },

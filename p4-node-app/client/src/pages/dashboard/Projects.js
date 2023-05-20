@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from "../../App";
-import axios from "axios";
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -68,13 +67,7 @@ p:hover {
 const Projects = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const navigate = useNavigate();
-  // const {projects} = useContext(AppContext);
-  const [projects, setProjects] = useState([]);
-  useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      setProjects(response.data.projects)
-    })
-  }, []);
+  const {projects} = useContext(AppContext);
 
   const clickHandle = (e) => {
     e.preventDefault();
@@ -102,9 +95,9 @@ const Projects = () => {
                 <tbody>
                   {projects.map((project, index) => (
                     <tr key={index}>
-                      {project.projectName && <td>{project.projectName}</td>}
+                      {project.name && <td>{project.name}</td>}
                       {project.description && <td>{project.description}</td>}
-                      {project.projectName && <td><p onClick={() => handleDetail(project._id)}>More Details</p></td>}
+                      {project.name && <td><p onClick={() => handleDetail(project.id)}>More Details</p></td>}
                     </tr>
                   ))}
                 </tbody>

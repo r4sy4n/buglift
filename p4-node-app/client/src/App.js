@@ -4,8 +4,9 @@ import { LandingPage, Register, ErrorPage} from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Dashboard, Tickets, Projects, CreateProject, CreateTicket, EditTicket, SharedLayout, UserProfile, Admin, ProjectDetails, TicketDetails} from './pages/dashboard/';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export const AppContext = createContext();
 
@@ -62,10 +63,13 @@ const initialTicket = ([
     },
   ]);
 
+ 
+
 function App() {
   const [projects, setProjects] = useState(initialProjects);
   const [tickets, setTickets] = useState(initialTicket);
- 
+  
+
   return (
     <AppContext.Provider value={{projects, setProjects, tickets, setTickets}}>
       <BrowserRouter>

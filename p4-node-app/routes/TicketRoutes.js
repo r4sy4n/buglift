@@ -6,7 +6,7 @@ const Ticket = require('../models/TicketModel');
 //Tickets Endpoint
 //GET Endpoint to get all projects
 router.get('/tickets', ( request, response ) => {
-    Ticket.find().populate("fromProject").then( ticket => {
+    Ticket.find().then( ticket => {
         response.status( 200 ).send({ tickets: ticket })
     });
 });
@@ -26,7 +26,7 @@ router.get('/tickets/:ticketid', ( request, response ) => {
 
 //POST Endpoint to create ticket
 router.post('/tickets', ( request, response ) => {
-    Ticket.find( {ticketTitle: request.body.ticketTitle}, null ).then(dbResponse => {
+    Ticket.find( {ticketTitle: request.body.ticketTitle} ).then(dbResponse => {
         if( dbResponse.length > 0 ){
             //  db has record of response
             response.status( 400 ).send({ error: 'Please use unique ticket title for this project' });
