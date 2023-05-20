@@ -93,7 +93,7 @@ function App() {
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
-        console.log(response)
+        // console.log(response)
     });
   }, []);
 

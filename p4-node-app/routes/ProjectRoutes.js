@@ -33,7 +33,7 @@ router.post('/projects', ( request, response ) => {
         }else{
                 const newProject = new Project({ projectName: request.body.projectName, description: request.body.description });
                 newProject.save().then( dbResponse => {
-                    response.status( 201 ).send({ dbResponse });
+                    response.status( 201 ).send({ dbResponse, message: 'Project Created' });
                 });
         }
     })

@@ -77,11 +77,11 @@ const ProjectDetails = () => {
     e.preventDefault();
     navigate('/projects');
   }
-  const filteredProjects = projects.filter(project => project.id === id);
+  const filteredProjects = projects.filter(project => project._id === id);
   const project = filteredProjects.length > 0 ? filteredProjects[0] : null;
 
-  const projectTickets = tickets.filter(ticket => ticket.project === project.name);
-
+  const projectTickets = tickets.filter(ticket => ticket.fromProject === project._id);
+ 
   const handleDetailTickets = (id) => {
     navigate(`/ticketdetails/${id}`);
   }
@@ -91,13 +91,13 @@ const ProjectDetails = () => {
         <h3>Project Details</h3>
         <span onClick={handleDetail}>Back to list</span>
         <section className='grid-item'>
-          {projects.filter(project => project.id === (id)).map(project => (
+          {projects.filter(project => project._id === (id)).map(project => (
             <div className='grid'>
-              <div className='flex-column' key={project.id}>
+              <div className='flex-column' key={project._id}>
                   <h4>Project Name</h4>
-                  <p>{project.name}</p>
+                  <p>{project.projectName}</p>
               </div>
-              <div className='flex-column' key={project.name}>
+              <div className='flex-column' key={project.projectName}>
                   <h4>Description</h4>
                   <p>{project.description}</p>
               </div>  
@@ -118,7 +118,7 @@ const ProjectDetails = () => {
                 </thead>
                 <tbody>
                   {projects.map((project, index) => (
-                    <tr>
+                    <tr key={index}>
                       <td>Russell</td>
                       <td>Demo Admin</td>                      
                     </tr>
@@ -141,10 +141,10 @@ const ProjectDetails = () => {
                 <tbody>
                   {projectTickets.map((ticket, index) =>  (
                     <tr key={index}>
-                      <td>{ticket.title}</td>
+                      <td>{ticket.ticketTitle}</td>
                       <td>{ticket.submittedBy}</td>
                       <td>{ticket.ticketStatus}</td>
-                      <td><p className='more-details' onClick={() => handleDetailTickets(ticket.id)}>More Details</p></td>
+                      <td><p className='more-details' onClick={() => handleDetailTickets(ticket._id)}>More Details</p></td>
                     </tr>
                   ))}
                 </tbody>

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../App';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -71,7 +72,7 @@ const reducer = (state, action) => {
 
 const CreateProject = () => {
   const projectUser = ['Manager', 'Project Manager', 'User'];
-
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, {
     values: 'Manager',
     projectName: '',
@@ -79,8 +80,8 @@ const CreateProject = () => {
   });
 
   const { showSidebar } = useContext(SharedLayoutContext);
-  const { projects, setProjects } = useContext(AppContext);
-  const navigate = useNavigate();
+  // const { projects, setProjects } = useContext(AppContext);
+  // const navigate = useNavigate();
 
   const handleChange = (event) => {
     dispatch({ type: 'SET_VALUES', payload: event.target.value });
@@ -99,22 +100,33 @@ const CreateProject = () => {
     if (!state.projectName || !state.description) {
       toast.error('All fields are required!');
     } else {
-      addProject();
-      toast.success('Project Created');
-      setTimeout(() => {
-        navigate('/projects');
-      }, 600);
+      axios.post( 'http://localhost:8000/api/v1/projects', { projectName: state.projectName, description: state.description } ).then( response => {
+        console.log({response})
+        toast.success(response.data.message);
+        setTimeout(() => {
+          navigate('/projects');
+        }, 600);
+      }).catch( error => {
+        toast.error(error.response.data.error)
+      })
     }
   };
 
-  const addProject = () => {
-    let newEntry = {
-      id: uuidv4(),
-      name: state.projectName,
-      description: state.description,
-    };
-    setProjects([...projects, newEntry]);
-  };
+      // addProject();
+      // toast.success('Project Created');
+      // setTimeout(() => {
+      //   navigate('/projects');
+      // }, 600);
+    // }
+  // };
+
+  // const addProject = () => {
+  //   let newEntry = {
+  //     projectName: state.projectName,
+  //     description: state.description,
+  //   };
+  //   setProjects([...projects, newEntry]);
+  // };
 
   return (
     <Wrapper>
