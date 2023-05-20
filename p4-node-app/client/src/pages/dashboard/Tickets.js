@@ -199,13 +199,13 @@ const Tickets = () => {
                 <tbody>
                   {filteredTickets.map((ticket, index) => (
                     <tr key={index}>
-                      <td>{ticket.title}</td>
-                      <td>{ticket.project}</td>
+                      <td>{ticket.ticketTitle}</td>
+                      <td>{ticket.fromProject}</td>
                       <td>{ticket.submittedBy}</td>
                       <td>{typeBadge(ticket.ticketType)}</td>
                       <td>{statusBadge(ticket.ticketStatus)}</td>
                       <td>{priorityBadge(ticket.ticketPriority)}</td>
-                      <td><p onClick={() => handleDetail(ticket.id)}>More Details</p></td>
+                      <td><p onClick={() => handleDetail(ticket._id)}>More Details</p></td>
                     </tr>
                   ))}
                 </tbody>

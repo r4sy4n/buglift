@@ -75,12 +75,14 @@ function App() {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
+      // console.log(response)
     })
   }, []);
   
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
+      console.log(response)
     })
   }, []);
 

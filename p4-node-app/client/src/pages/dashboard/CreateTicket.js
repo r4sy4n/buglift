@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../App';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -50,7 +51,7 @@ const Wrapper = styled.section`
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_NAME_VALUES':
-      return { ...state, nameValues: action.payload };
+      return { ...state, fromProjectValues: action.payload };
     case 'SET_TYPE_VALUES':
       return { ...state, typeValues: action.payload };
     case 'SET_PRIORITY_VALUES':
@@ -76,11 +77,10 @@ const CreateTicket = () => {
   const navigate = useNavigate();
  
   const initialState = {
-    projectName: projects,
     ticketType: ['Bugs/Error', 'Feature Request', 'Task'],
     ticketPriority: ['Low', 'Medium', 'High'],
     ticketStatus: ['Open'],
-    nameValues: 'Project A',
+    fromProjectValues: 'Project A',
     typeValues: 'Bugs/Error',
     priorityValues: 'High',
     statusValues: 'Open',
@@ -125,31 +125,42 @@ const CreateTicket = () => {
       toast.error('All fields are required!');
     }
     if (state.ticketTitle && state.ticketDescription && state.submittedBy) {
-      addTicket();
-      toast.success('Ticket Created');
-      setTimeout(() => {
-        navigate('/tickets');
-      }, 600);
+      axios.post( 'http://localhost:8000/api/v1/tickets', { ticketTitle: state.ticketTitle, fromProject: state.projectName, ticketDescription: state.ticketDescription, ticketPriority: state.ticketPriority, ticketType: state.ticketType } ).then( response => {
+          console.log(response)
+        //   toast.success('Ticket Created');
+        // setTimeout(() => {
+        //   navigate('/tickets');
+        // }, 600);
+      }).catch( error => {
+          console.log(error)
+
+      })
+
+      // addTicket();
+      // toast.success('Ticket Created');
+      // setTimeout(() => {
+      //   navigate('/tickets');
+      // }, 600);
     }
   };
   
-  const addTicket = () => {
-    let newEntry = {
-      id: uuidv4(),
-      title: state.ticketTitle,
-      project: state.nameValues,
-      submittedBy: state.submittedBy,
-      ticketDescription: state.ticketDescription,
-      ticketType: state.typeValues,
-      ticketPriority: state.priorityValues,
-      ticketStatus: state.statusValues,
-      Details: '',
-    }
-    setTickets ([
-      ...tickets,
-        newEntry
-    ]);
-  };
+  // const addTicket = () => {
+  //   let newEntry = {
+  //     id: uuidv4(),
+  //     ticketTitle: state.ticketTitle,
+  //     fromProject: state.nameValues,
+  //     submittedBy: state.submittedBy,
+  //     ticketDescription: state.ticketDescription,
+  //     ticketType: state.typeValues,
+  //     ticketPriority: state.priorityValues,
+  //     ticketStatus: state.statusValues,
+  //     Details: '',
+  //   }
+  //   setTickets ([
+  //     ...tickets,
+  //       newEntry
+  //   ]);
+  // };
 
   return (
     <Wrapper> 
@@ -158,9 +169,9 @@ const CreateTicket = () => {
         <div className='form-center'>
           <div>
             <div className='form-label'>Project Name</div>
-              <select className='form-select' value={state.nameValues} onChange={handleChange}>
+              <select className='form-select' value={state.projectNameValues} onChange={handleChange}>
                 {
-                  state.projectName.map((project, index) =><option key={index} value={project.name}>{project.name}</option>)
+                  projects.map((project, index) =><option key={index} value={project.projectName}>{project.projectName}</option>)
                 }        
               </select>
           </div>
