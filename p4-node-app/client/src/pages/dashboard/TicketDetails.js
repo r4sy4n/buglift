@@ -1,8 +1,9 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SharedLayoutContext } from './SharedLayout';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -82,13 +83,22 @@ span:hover {
 }
 `
 const TicketDetails = () => {
-  const {tickets} = useContext(AppContext);
+  // const {tickets} = useContext(AppContext);
   const navigate = useNavigate();
   const {id} = useParams(); 
   const [comment, setComment] = useState('');
   const [commenter, setCommenter] = useState('');
   const [comments, setComments] = useState([]);
   const {showSidebar} = useContext(SharedLayoutContext);
+  const [tickets, setTickets] = useState([]);
+  
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+      setTickets(response.data.tickets)
+      // console.log(response)
+    })
+  }, []);
+  
 
   const handleDetail = (e) => {
     e.preventDefault();
@@ -121,22 +131,22 @@ const TicketDetails = () => {
         <div className={showSidebar ? 'table' : 'table-move'}>
         <h3>Ticket Details</h3>
         <p onClick={handleDetail}><span>Back to list</span></p>
-        {tickets.filter(ticket => ticket.id === (id)).map((ticket, index) => (
-        <p key={index} onClick={() => handleEdit(ticket.id)}><span>Edit Ticket</span></p>))}
+        {tickets.filter(ticket => ticket._id === (id)).map((ticket, index) => (
+        <p key={index} onClick={() => handleEdit(ticket._id)}><span>Edit Ticket</span></p>))}
         <section className='grid-item'>
-          {tickets.filter(ticket => ticket.id === (id)).map(ticket => (
+          {tickets.filter(ticket => ticket._id === (id)).map(ticket => (
             <div className='grid'>
-              <div key={ticket.id} className='flex-item'>
+              <div key={ticket._id} className='flex-item'>
                   <h4>Ticket Title</h4>
-                  <p>{ticket.title}</p>
+                  <p>{ticket.ticketTitle}</p>
                   <h4>Ticket Description</h4>
                   <p>{ticket.ticketDescription}</p>
                   <h4>Project</h4>
-                  <p>{ticket.project}</p>
+                  <p>{ticket.fromProject}</p>
                   <h4>Submitted by</h4>
                   <p>{ticket.submittedBy}</p>
               </div> 
-              <div key={ticket.id} className='flex-item'>
+              <div key={ticket.ticketTitle} className='flex-item'>
                   <h4>Ticket Type</h4>
                   <p>{ticket.ticketType}</p>
                   <h4>Ticket Priority</h4>

@@ -1,10 +1,10 @@
-import React, { useContext, useReducer }from 'react';
+import React, { useContext, useReducer, useState, useEffect }from 'react';
 import styled from 'styled-components';
 import { SharedLayoutContext } from './SharedLayout';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App';
-
+import axios from 'axios';
 
 
 const Wrapper = styled.section`
@@ -63,12 +63,32 @@ const reducer = (state, action) => {
   }
 };
 const Admin = () => {
-  const {projects} = useContext(AppContext);
+  // const {projects} = useContext(AppContext);
+  const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+      setProjects(response.data.projects)
+      console.log(response)
+    })
+  }, []);
+  const token = localStorage.getItem('token'); 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+      setUsers(response.data.users)
+        console.log(response)
+    });
+  }, []);
 
-  const assignProject = ['Manager', 'Project Manager', 'User'];
-  const projectList = projects;
-  const userList = ['John Smith', 'Mary Jones', 'Alex Lee'];
+  const assignProject = ['Admin', 'User'];
+  // const projectList = projects;
+  const userList = users;
   const { showSidebar } = useContext(SharedLayoutContext);
   const navigate = useNavigate();
 
@@ -113,9 +133,9 @@ const Admin = () => {
               value={state.projectList}
               onChange={listChange}
             >
-              {projectList.map((project, index) => (
-                <option key={index} value={project.name}>
-                  {project.name}
+              {projects.map((project, index) => (
+                <option key={index} value={project.projectName}>
+                  {project.projectName}
                 </option>
               ))}
             </select>
@@ -138,8 +158,8 @@ const Admin = () => {
               onChange={userChange}
             >
               {userList.map((user, index) => (
-                <option key={index} value={user}>
-                  {user}
+                <option key={index} value={user.username}>
+                  {user.username}
                 </option>
               ))}
             </select>

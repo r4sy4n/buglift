@@ -83,6 +83,8 @@ const Navbar = () => {
         navigate('/landing');  
         localStorage.removeItem('token');
         localStorage.removeItem('role');
+        localStorage.removeItem('id');
+        localStorage.removeItem('username');
       }, 600);
   }
   return (

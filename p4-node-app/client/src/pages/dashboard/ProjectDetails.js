@@ -73,10 +73,12 @@ const ProjectDetails = () => {
   const {projects, tickets} = useContext(AppContext);
   const navigate = useNavigate();
   const {id} = useParams();
+  
   const handleDetail = (e) => {
     e.preventDefault();
     navigate('/projects');
-  }
+  };
+
   const filteredProjects = projects.filter(project => project._id === id);
   const project = filteredProjects.length > 0 ? filteredProjects[0] : null;
 

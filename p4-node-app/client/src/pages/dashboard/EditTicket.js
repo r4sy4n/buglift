@@ -6,6 +6,7 @@ import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../App';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -71,7 +72,7 @@ const EditTicket = () => {
   const ticketPriority = ['Low', 'Medium', 'High'];
   const ticketStatus = ['Open', 'In Progress', 'Completed'];
   const {showSidebar} = useContext(SharedLayoutContext);
-  const {tickets, setTickets} = useContext(AppContext);
+  const [tickets, setTickets] = useState([]);
   const navigate = useNavigate();
   const {id} = useParams();
   const [selectedTicket, setSelectedTicket] = useState(null);
@@ -82,21 +83,36 @@ const EditTicket = () => {
   const [ticketTitle, setTicketTitle] = useState('');
   const [ticketDescription, setTicketDescription] = useState('');
   const [submittedBy, setSubmittedBy] = useState('');
-
+  const [ticketId, setTicketId] = useState('');
+  // console.log(tickets)
+  // console.log(projects)
   useEffect(() => {
-    const selected = tickets.find(ticket => ticket.id === id);
+    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+      setTickets(response.data.tickets)
+      // console.log(response)
+    })
+  }, []);
+  useEffect(() => {
+    const selected = tickets.find(ticket => ticket._id === id);
     if (selected) {
       setSelectedTicket(selected);
-      setNameValues(selected.project);
+      setNameValues(selected.fromProject);
       setTypeValues(selected.ticketType);
       setPriorityValues(selected.ticketPriority);
       setStatusValues(selected.ticketStatus);
-      setTicketTitle(selected.title);
+      setTicketTitle(selected.ticketTitle);
       setTicketDescription(selected.ticketDescription);
       setSubmittedBy(selected.submittedBy);
+      setTicketId(selected._id)
+  console.log(selected)
     }
   }, [tickets, id]);
+// const filteredProjects = projects.filter(project => project._id === );
+//   const project = filteredProjects.length > 0 ? filteredProjects[0] : null;
+  
 
+  // const projectTickets = tickets.filter(ticket => ticket.fromProject === project._id);
+  // console.log(projectTickets)
 
   const handleChange = (event) => {
     setNameValues(event.target.value);
@@ -121,31 +137,47 @@ const EditTicket = () => {
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    if (!ticketTitle || !ticketDescription || !submittedBy) {
+    if (!ticketTitle || !ticketDescription) {
       toast.error('All fields are required!');
     }
-    if (ticketTitle && ticketDescription && submittedBy) {
-      const updatedTicket = {
-        ...selectedTicket,
-        project: nameValues,
-        submittedBy: submittedBy,
-        ticketDescription: ticketDescription,
-        ticketType: typeValues,
-        ticketPriority: priorityValues,
-        ticketStatus: statusValues,
-        title: ticketTitle
-      }
-      const updatedTickets = tickets.map(ticket => {
-        if (ticket.id === id) {
-          return updatedTicket;
-        }
-        return ticket;
-      });
-      setTickets(updatedTickets);
-      toast.success('Ticket Updated');
-      setTimeout(() => {
-        navigate(`/ticketdetails/${id}`);
-      }, 600);
+    if (ticketTitle && ticketDescription) {
+      axios.put( `http://localhost:8000/api/v1/tickets/${ticketId}`, { 
+          "ticketTitle": ticketTitle, 
+          "ticketDescription": ticketDescription, 
+          "ticketPriority": priorityValues, 
+          "ticketType": typeValues,
+          "ticketStatus": statusValues
+        } ).then( response => {
+            console.log(response)
+          toast.success(response.data.message);
+        setTimeout(() => {
+          navigate('/tickets');
+        }, 600);
+      }).catch(error => {
+        console.log(error)
+      })
+      
+      // const updatedTicket = {
+      //   ...selectedTicket,
+      //   project: nameValues,
+      //   submittedBy: submittedBy,
+      //   ticketDescription: ticketDescription,
+      //   ticketType: typeValues,
+      //   ticketPriority: priorityValues,
+      //   ticketStatus: statusValues,
+      //   title: ticketTitle
+      // }
+      // const updatedTickets = tickets.map(ticket => {
+      //   if (ticket._id === id) {
+      //     return updatedTicket;
+      //   }
+      //   return ticket;
+      // });
+      // setTickets(updatedTickets);
+      // toast.success('Ticket Updated');
+      // setTimeout(() => {
+      //   navigate(`/ticketdetails/${id}`);
+      // }, 600);
     }
   }
 
@@ -166,7 +198,7 @@ const EditTicket = () => {
             <div className='form-label'>Project Name</div>
               <select className='form-select' value={nameValues} onChange={handleChange} disabled>
                 {
-                  projectName.map((project, index) =><option key={index} value={project.name}>{project.name}</option>)
+                  projectName.map((project, index) =><option key={index} value={project._id}>{project.projectName}</option>)
                 }        
               </select>
           </div>
@@ -208,13 +240,13 @@ const EditTicket = () => {
               }        
             </select>
           </div>
-          <label htmlFor='submitted-by' className='form-label'>Submitted by</label>
+          {/* <label htmlFor='submitted-by' className='form-label'>Submitted by</label>
           <input 
             type='text' 
             id='submitted-by' 
             value={submittedBy}  
             className='form-input'
-            onChange={ submittedByChange } disabled></input>
+            onChange={ submittedByChange } disabled></input> */}
           <button type='submit' className='btn btn-block'>Save Changes</button>
           <button type='button' className='cancel-btn btn-block' onClick={cancelHandler}>Cancel</button>
         </div>

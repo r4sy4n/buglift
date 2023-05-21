@@ -4,7 +4,7 @@ const TicketSchema = mongoose.Schema({
     ticketTitle: "String",
     ticketDescription: "String",
     fromProject: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
-    submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    submittedBy: "String",
     ticketType: "String",
     ticketStatus: { type: String, default: 'Open' },
     ticketPriority: "String"

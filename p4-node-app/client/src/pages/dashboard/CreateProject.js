@@ -101,7 +101,6 @@ const CreateProject = () => {
       toast.error('All fields are required!');
     } else {
       axios.post( 'http://localhost:8000/api/v1/projects', { projectName: state.projectName, description: state.description } ).then( response => {
-        console.log({response})
         toast.success(response.data.message);
         setTimeout(() => {
           navigate('/projects');

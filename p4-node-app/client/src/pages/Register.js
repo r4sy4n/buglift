@@ -105,6 +105,7 @@ const Register = () => {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('id', response.data.id);
                 localStorage.setItem('role', response.data.role);
+                localStorage.setItem('username', response.data.username);
                 setTimeout(() =>{
                     navigate('/'); 
                 }, 600); 

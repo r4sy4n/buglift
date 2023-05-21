@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from "../../App";
+import axios from "axios";
 
 
 const Wrapper = styled.section`
@@ -109,7 +110,24 @@ p:hover {
 const Tickets = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const navigate = useNavigate();
-  const {tickets} = useContext(AppContext);
+  // const {tickets} = useContext(AppContext);
+  const [tickets, setTickets] = useState([]);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+      setTickets(response.data.tickets)
+      // console.log(response)
+    })
+  }, []);
+  
+
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+      setProjects(response.data.projects)
+      // console.log(response)
+    })
+  }, []);
 
   const clickHandle = (e) => {
     e.preventDefault();
@@ -168,6 +186,12 @@ const Tickets = () => {
         return null;
     }
   };
+  //function that takes the fromProject ID and searches for the corresponding project
+  const getProjectName = (projectId) => {
+    const project = projects.find(project => project._id === projectId);
+    return project ? project.projectName : '';
+  };
+
   return (    
       <Wrapper>
         <form className={showSidebar ? 'table' : 'table-move'}>
@@ -200,7 +224,7 @@ const Tickets = () => {
                   {filteredTickets.map((ticket, index) => (
                     <tr key={index}>
                       <td>{ticket.ticketTitle}</td>
-                      <td>{ticket.fromProject}</td>
+                      <td>{getProjectName(ticket.fromProject)}</td>
                       <td>{ticket.submittedBy}</td>
                       <td>{typeBadge(ticket.ticketType)}</td>
                       <td>{statusBadge(ticket.ticketStatus)}</td>

@@ -29,12 +29,11 @@ router.post('/tickets', ( request, response ) => {
     Ticket.find( {ticketTitle: request.body.ticketTitle} ).then(dbResponse => {
         if( dbResponse.length > 0 ){
             //  db has record of response
-            response.status( 400 ).send({ error: 'Please use unique ticket title for this project' });
+            response.status( 400 ).send({ error: 'Please use unique ticket title' });
         }else{
-            console.log(dbResponse)
                 const newTicket = new Ticket({ ticketTitle: request.body.ticketTitle, fromProject: request.body.fromProject, ticketDescription: request.body.ticketDescription, ticketPriority: request.body.ticketPriority, ticketType: request.body.ticketType, submittedBy: request.body.submittedBy });
                 newTicket.save().then( dbResponse => {
-                    response.status( 201 ).send({ dbResponse });
+                    response.status( 201 ).send({ dbResponse, message: 'Ticket Created' });
                 });
         };
     });
@@ -42,8 +41,8 @@ router.post('/tickets', ( request, response ) => {
 
 //PUT Endpoint to edit ticket
 router.put('/tickets/:ticketid', ( request, response ) => {
-    Ticket.findByIdAndUpdate( request.params.ticketid, request.body, { new: true } ).then( dbResponse => {;
-        response.status( 200 ).send({ dbResponse });
+    Ticket.findByIdAndUpdate( request.params.ticketid, request.body, { new: true } ).then( dbResponse => {
+        response.status( 200 ).send({ dbResponse, message: 'Changes Saved' });
     });
 });
 

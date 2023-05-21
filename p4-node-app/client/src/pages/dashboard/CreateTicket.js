@@ -73,7 +73,6 @@ const CreateTicket = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const {tickets, setTickets} = useContext(AppContext);
   const {projects} = useContext(AppContext);
-  console.log(projects)
   const navigate = useNavigate();
  
   const initialState = {
@@ -86,7 +85,7 @@ const CreateTicket = () => {
     statusValues: 'Open',
     ticketTitle: '',
     ticketDescription: '',
-    submittedBy: localStorage.getItem('id'),
+    submittedBy: localStorage.getItem('username'),
   };
   // const {id} = useParams();
 
@@ -102,10 +101,6 @@ const CreateTicket = () => {
 
   const descriptionChange = (event) => {
     dispatch({ type: 'SET_TICKET_DESCRIPTION', payload: event.target.value });
-  };
-
-  const submittedByChange = (event) => {
-    dispatch({ type: 'SET_SUBMITTED_BY', payload: event.target.value });
   };
 
   const typeChange = (event) => {
@@ -133,12 +128,12 @@ const CreateTicket = () => {
           "ticketPriority": state.priorityValues, 
           "ticketType": state.typeValues,
           "submittedBy": state.submittedBy } ).then( response => {
-            console.log(response)
-      
-        //   toast.success('Ticket Created');
-        // setTimeout(() => {
-        //   navigate('/tickets');
-        // }, 600);
+          toast.success(response.data.message);
+        setTimeout(() => {
+          navigate('/tickets');
+        }, 600);
+      }).catch(error => {
+        toast.error(error)
       })
 
       // addTicket();
@@ -210,14 +205,14 @@ const CreateTicket = () => {
               }        
             </select>
           </div>
-          <div>
+          {/* <div>
             <div className='form-label'>Ticket Status</div>
             <select className='form-select' value={state.statusValues} onChange={statusChange}>
               {
                 state.ticketStatus.map((status, index) =><option key={index} value={status}>{status}</option>)
               }        
             </select>
-          </div>
+          </div> */}
           <button type='submit' className='btn btn-block'>Create Ticket</button>  
         </div>
       </form>
