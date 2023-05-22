@@ -31,7 +31,7 @@ router.post('/projects', ( request, response ) => {
             //  db has record of response
             response.status( 400 ).send({ error: 'Please use unique project name' });
         }else{
-                const newProject = new Project({ projectName: request.body.projectName, description: request.body.description });
+                const newProject = new Project({ projectName: request.body.projectName, description: request.body.description, username: request.body.username });
                 newProject.save().then( dbResponse => {
                     response.status( 201 ).send({ dbResponse, message: 'Project Created' });
                 });

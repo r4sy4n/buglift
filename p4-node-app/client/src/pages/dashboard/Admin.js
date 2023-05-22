@@ -139,6 +139,18 @@ const Admin = () => {
                 </option>
               ))}
             </select>
+            <div className='form-label'>Assign User</div>
+            <select
+              className='form-select'
+              value={state.assignUsers}
+              onChange={userChange}
+            >
+              {userList.map((user, index) => (
+                <option key={index} value={user.username}>
+                  {user.username}
+                </option>
+              ))}
+            </select>
             <div className='form-label'>Assign Role</div>
             <select
               className='form-select'
@@ -148,18 +160,6 @@ const Admin = () => {
               {assignProject.map((project, index) => (
                 <option key={index} value={project}>
                   {project}
-                </option>
-              ))}
-            </select>
-            <div className='form-label'>Assign Users</div>
-            <select
-              className='form-select'
-              value={state.assignUsers}
-              onChange={userChange}
-            >
-              {userList.map((user, index) => (
-                <option key={index} value={user.username}>
-                  {user.username}
                 </option>
               ))}
             </select>

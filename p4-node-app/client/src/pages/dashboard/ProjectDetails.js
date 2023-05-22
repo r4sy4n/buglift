@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -73,17 +74,33 @@ const ProjectDetails = () => {
   const {projects, tickets} = useContext(AppContext);
   const navigate = useNavigate();
   const {id} = useParams();
+  const [users, setUsers] = useState([]);
   
   const handleDetail = (e) => {
     e.preventDefault();
     navigate('/projects');
   };
+  const token = localStorage.getItem('token'); 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+      setUsers(response.data.users);
+        console.log(response)
+    });
+  }, []);
 
   const filteredProjects = projects.filter(project => project._id === id);
   const project = filteredProjects.length > 0 ? filteredProjects[0] : null;
-
+  
   const projectTickets = tickets.filter(ticket => ticket.fromProject === project._id);
- 
+   
+  const projectUsers = users.filter(user => user.username === project.username )
+
   const handleDetailTickets = (id) => {
     navigate(`/ticketdetails/${id}`);
   }
@@ -119,10 +136,10 @@ const ProjectDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {projects.map((project, index) => (
+                  {projectUsers.map((project, index) => (
                     <tr key={index}>
-                      <td>Russell</td>
-                      <td>Demo Admin</td>                      
+                      <td>{project.username}</td>
+                      <td>{project.role}</td>                      
                     </tr>
                   ))}
                 </tbody>

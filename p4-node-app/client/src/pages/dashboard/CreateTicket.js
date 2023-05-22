@@ -72,15 +72,15 @@ const reducer = (state, action) => {
 const CreateTicket = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const {tickets, setTickets} = useContext(AppContext);
-  // const {projects} = useContext(AppContext);
-  const [projects, setProjects] = useState([]);
+  const {projects} = useContext(AppContext);
+  // const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
- 
+  
   const initialState = {
     ticketType: ['Bugs/Error', 'Feature Request', 'Task'],
     ticketPriority: ['Low', 'Medium', 'High'],
     ticketStatus: ['Open'],
-    // projectNameValues: projects[0]._id,
+    projectNameValues: projects[0]._id,
     typeValues: 'Bugs/Error',
     priorityValues: 'High',
     statusValues: 'Open',
@@ -91,10 +91,11 @@ const CreateTicket = () => {
   // const {id} = useParams();
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      setProjects(response.data.projects)
+      // setProjects(response.data.projects)
       // console.log(response)
     })
   }, []);
+  
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (event) => {
@@ -139,7 +140,8 @@ const CreateTicket = () => {
           navigate('/tickets');
         }, 600);
       }).catch(error => {
-        toast.error(error)
+        console.log(error)
+        toast.error(error.response.data.error)
       })
 
       // addTicket();

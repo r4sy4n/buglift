@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
@@ -73,12 +73,27 @@ const reducer = (state, action) => {
 const CreateProject = () => {
   const projectUser = ['Manager', 'Project Manager', 'User'];
   const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const username = localStorage.getItem('username');
   const [state, dispatch] = useReducer(reducer, {
     values: 'Manager',
     projectName: '',
     description: '',
+    username: username
   });
+  const token = localStorage.getItem('token'); 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
 
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+      // setUsers(response.data.users)
+        // console.log(response)
+    });
+  }, []);
   const { showSidebar } = useContext(SharedLayoutContext);
   // const { projects, setProjects } = useContext(AppContext);
   // const navigate = useNavigate();
@@ -100,7 +115,7 @@ const CreateProject = () => {
     if (!state.projectName || !state.description) {
       toast.error('All fields are required!');
     } else {
-      axios.post( 'http://localhost:8000/api/v1/projects', { projectName: state.projectName, description: state.description } ).then( response => {
+      axios.post( 'http://localhost:8000/api/v1/projects', { projectName: state.projectName, description: state.description, username: state.username } ).then( response => {
         toast.success(response.data.message);
         setTimeout(() => {
           navigate('/projects');
