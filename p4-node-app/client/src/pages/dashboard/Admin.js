@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../App';
 import axios from 'axios';
+import Loading from './../../components/Loading';
 
 
 const Wrapper = styled.section`
@@ -63,14 +64,16 @@ const reducer = (state, action) => {
   }
 };
 const Admin = () => {
-  // const {projects} = useContext(AppContext);
-  const [projects, setProjects] = useState([]);
+  const {projects} = useContext(AppContext);
+  // const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      setProjects(response.data.projects)
-      console.log(response)
+      // setProjects(response.data.projects)
+      // console.log(response)
+      setIsLoading(false);
     })
   }, []);
   const token = localStorage.getItem('token'); 
@@ -82,10 +85,12 @@ const Admin = () => {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
       setUsers(response.data.users)
+      setIsLoading(false);
+
         console.log(response)
     });
   }, []);
-
+  
   const assignProject = ['Admin', 'User'];
   // const projectList = projects;
   const userList = users;
@@ -93,7 +98,7 @@ const Admin = () => {
   const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(reducer, {
-    projectList: '',
+    projectList: projects[0].projectName,
     assignProject: '',
     assignUsers: '',
   });
@@ -118,7 +123,9 @@ const Admin = () => {
       navigate('/');
     }, 600);
   };
-
+  if (isLoading) {
+  return <Loading center />;
+  }
 
   return (
     <Wrapper>

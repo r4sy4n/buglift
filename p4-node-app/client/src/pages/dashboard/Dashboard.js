@@ -4,6 +4,7 @@ import { BarChartData, ProjectStats, TicketStats, PriorityChart, TypeChart, Stat
 import { SharedLayoutContext } from './SharedLayout';
 import { AppContext } from '../../App';
 import axios from 'axios';
+import Loading from '../../components/Loading';
 const Wrapper = styled.section`
   border-radius: 0.25rem;
   width: 100%;
@@ -63,10 +64,13 @@ const Dashboard = () => {
   // const {projects} = useContext(AppContext);
   const [tickets, setTickets] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
+
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
+      setIsLoading(false);
       // console.log(response)
     })
   }, []);
@@ -74,10 +78,14 @@ const Dashboard = () => {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
+      setIsLoading(false);
       // console.log(response)
     })
   }, []);
   
+  if (isLoading) {
+  return <Loading center />;
+  }
 
   return (
     <Wrapper>

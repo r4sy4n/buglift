@@ -4,6 +4,7 @@ import { AppContext } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SharedLayoutContext } from './SharedLayout';
 import axios from 'axios';
+import Loading from '../../components/Loading';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -91,10 +92,12 @@ const TicketDetails = () => {
   const [comments, setComments] = useState([]);
   const {showSidebar} = useContext(SharedLayoutContext);
   const [tickets, setTickets] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
   
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
+      setIsLoading(false);
       // console.log(response)
     })
   }, []);
@@ -128,6 +131,10 @@ const TicketDetails = () => {
     const project = projects.find(project => project._id === projectId);
     return project ? project.projectName : '';
   };
+
+  if (isLoading) {
+    return <Loading center />;
+    }
 
   return (
     <Wrapper>

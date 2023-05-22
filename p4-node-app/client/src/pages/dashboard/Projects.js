@@ -5,6 +5,7 @@ import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
 // import { AppContext } from "../../App";
 import axios from "axios";
+import Loading from "../../components/Loading";
 const Wrapper = styled.section`
   border-radius: 0.25rem;
   width: 100%;
@@ -69,6 +70,8 @@ const Projects = () => {
   const navigate = useNavigate();
   // const {projects} = useContext(AppContext);
   const [projects, setProjects] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
+
 
   const clickHandle = (e) => {
     e.preventDefault();
@@ -81,8 +84,13 @@ const Projects = () => {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
+      setIsLoading(false);
     })
   }, []);
+
+  if (isLoading) {
+  return <Loading center />;
+  }
 
   return (    
       <Wrapper>

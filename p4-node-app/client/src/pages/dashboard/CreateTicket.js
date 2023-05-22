@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { AppContext } from '../../App';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import Loading from '../../components/Loading';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -75,6 +76,7 @@ const CreateTicket = () => {
   const {projects} = useContext(AppContext);
   // const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
+  const [ isLoading, setIsLoading ] = useState(true);
   
   const initialState = {
     ticketType: ['Bugs/Error', 'Feature Request', 'Task'],
@@ -92,6 +94,7 @@ const CreateTicket = () => {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
       // setProjects(response.data.projects)
+      setIsLoading(false);
       // console.log(response)
     })
   }, []);
@@ -169,6 +172,10 @@ const CreateTicket = () => {
   //       newEntry
   //   ]);
   // };
+
+  if (isLoading) {
+    return <Loading center />;
+    }
 
   return (
     <Wrapper> 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { AppContext } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Loading from '../../components/Loading';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -75,6 +76,7 @@ const ProjectDetails = () => {
   const navigate = useNavigate();
   const {id} = useParams();
   const [users, setUsers] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
   
   const handleDetail = (e) => {
     e.preventDefault();
@@ -90,6 +92,7 @@ const ProjectDetails = () => {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
       setUsers(response.data.users);
+      setIsLoading(false);
         console.log(response)
     });
   }, []);
@@ -104,6 +107,10 @@ const ProjectDetails = () => {
   const handleDetailTickets = (id) => {
     navigate(`/ticketdetails/${id}`);
   }
+
+  if (isLoading) {
+    return <Loading center />;
+    }
 
   return (
     <Wrapper>

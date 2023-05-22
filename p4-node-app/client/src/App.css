@@ -122,3 +122,15 @@ button {
 .Toastify__toast {
     text-transform: capitalize;
 }
+.loading {
+    width: 6rem;
+    height: 6rem;
+    border: 5px solid #829ab1;
+    border-radius: 50%;
+    border-top-color: #E21818;
+    animation: spinner 2s linear infinite;
+}
+
+.loading-center {
+    margin: 0 auto;
+}

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppContext } from '../../App';
 import axios from 'axios';
+import Loading from '../../components/Loading';
 
 const Wrapper = styled.section`
   border-radius: 0.25rem;
@@ -84,6 +85,7 @@ const EditTicket = () => {
   const [ticketDescription, setTicketDescription] = useState('');
   const [submittedBy, setSubmittedBy] = useState('');
   const [ticketId, setTicketId] = useState('');
+  const [ isLoading, setIsLoading ] = useState(true);
   // console.log(tickets)
   // console.log(projects)
   useEffect(() => {
@@ -104,7 +106,7 @@ const EditTicket = () => {
       setTicketDescription(selected.ticketDescription);
       setSubmittedBy(selected.submittedBy);
       setTicketId(selected._id)
-  console.log(selected)
+      setIsLoading(false);
     }
   }, [tickets, id]);
 // const filteredProjects = projects.filter(project => project._id === );
@@ -181,13 +183,16 @@ const EditTicket = () => {
     }
   }
 
-
   const cancelHandler = () => {
     toast.info('Cancel Changes');
       setTimeout(() =>{
         navigate('/tickets');  
       }, 600);
   }
+
+  if (isLoading) {
+    return <Loading center />;
+    }
 
   return (
     <Wrapper> 
