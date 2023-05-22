@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
@@ -72,14 +72,15 @@ const reducer = (state, action) => {
 const CreateTicket = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const {tickets, setTickets} = useContext(AppContext);
-  const {projects} = useContext(AppContext);
+  // const {projects} = useContext(AppContext);
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
  
   const initialState = {
     ticketType: ['Bugs/Error', 'Feature Request', 'Task'],
     ticketPriority: ['Low', 'Medium', 'High'],
     ticketStatus: ['Open'],
-    projectNameValues: projects[0]._id,
+    // projectNameValues: projects[0]._id,
     typeValues: 'Bugs/Error',
     priorityValues: 'High',
     statusValues: 'Open',
@@ -88,7 +89,12 @@ const CreateTicket = () => {
     submittedBy: localStorage.getItem('username'),
   };
   // const {id} = useParams();
-
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+      setProjects(response.data.projects)
+      // console.log(response)
+    })
+  }, []);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (event) => {

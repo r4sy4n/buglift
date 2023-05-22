@@ -83,7 +83,7 @@ span:hover {
 }
 `
 const TicketDetails = () => {
-  // const {tickets} = useContext(AppContext);
+  const {projects} = useContext(AppContext);
   const navigate = useNavigate();
   const {id} = useParams(); 
   const [comment, setComment] = useState('');
@@ -124,7 +124,10 @@ const TicketDetails = () => {
   // const handleCommenterChange = (event) => {
   //   setCommenter(event.target.value);
   // };
-  
+  const getProjectName = (projectId) => {
+    const project = projects.find(project => project._id === projectId);
+    return project ? project.projectName : '';
+  };
 
   return (
     <Wrapper>
@@ -142,7 +145,7 @@ const TicketDetails = () => {
                   <h4>Ticket Description</h4>
                   <p>{ticket.ticketDescription}</p>
                   <h4>Project</h4>
-                  <p>{ticket.fromProject}</p>
+                  <p>{getProjectName(ticket.fromProject)}</p>
                   <h4>Submitted by</h4>
                   <p>{ticket.submittedBy}</p>
               </div> 

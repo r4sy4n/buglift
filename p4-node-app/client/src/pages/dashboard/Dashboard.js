@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components'
 import { BarChartData, ProjectStats, TicketStats, PriorityChart, TypeChart, StatusChart } from '../../components';
 import { SharedLayoutContext } from './SharedLayout';
 import { AppContext } from '../../App';
-
+import axios from 'axios';
 const Wrapper = styled.section`
   border-radius: 0.25rem;
   width: 100%;
@@ -59,8 +59,24 @@ const Wrapper = styled.section`
 
 const Dashboard = () => {
   const { showSidebar } = useContext(SharedLayoutContext);
-  const {tickets} = useContext(AppContext);
-  const {projects} = useContext(AppContext);
+  // const {tickets} = useContext(AppContext);
+  // const {projects} = useContext(AppContext);
+  const [tickets, setTickets] = useState([]);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+      setProjects(response.data.projects)
+      // console.log(response)
+    })
+  }, []);
+  
+  useEffect(() => {
+    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+      setTickets(response.data.tickets)
+      // console.log(response)
+    })
+  }, []);
   
 
   return (

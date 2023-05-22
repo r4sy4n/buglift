@@ -139,7 +139,7 @@ const Admin = () => {
                 </option>
               ))}
             </select>
-            <div className='form-label'>Assign Project</div>
+            <div className='form-label'>Assign Role</div>
             <select
               className='form-select'
               value={state.assignProject}
