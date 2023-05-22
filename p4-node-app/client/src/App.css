@@ -130,7 +130,10 @@ button {
     border-top-color: #E21818;
     animation: spinner 2s linear infinite;
 }
-
 .loading-center {
     margin: 0 auto;
+}
+.btn-demo {
+    color: #f0f4f8;
+    background: #842029;
 }

@@ -51,6 +51,7 @@ const Register = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [isRegistered, setIsRegistered] = useState(true);
     const navigate = useNavigate();
+    const [ isLoading, setIsLoading ] = useState(false);
     //function to handle changes in username input field
     const nameChangeHandler = ( event ) => {
         setName( event.target.value );
@@ -138,7 +139,20 @@ const Register = () => {
         setIsRegistered( !isRegistered );
         setSuccessMessage('');
     };
-    
+    const loginUser = () => {
+        axios.post( `http://localhost:8000/api/v1/auth/login`, { username: 'testUser', password: 'Secret123!' } ).then( response => {
+            toast.success(response.data.message);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('id', response.data.id);
+            localStorage.setItem('role', response.data.role);
+            localStorage.setItem('username', response.data.username);
+            setIsLoading(true);
+            setTimeout(() =>{
+                navigate('/'); 
+            }, 600); 
+        })
+    }
+
     return(
         <Wrapper className='full-page'>
             <form onSubmit={ submitHandler } className='form'>
@@ -174,6 +188,13 @@ const Register = () => {
                     {<p>{successMessage}</p>}
                 </div>
                 <input type='submit' value={isRegistered ? 'Sign In' : 'Submit'} className='btn btn-block'></input>
+                <button
+                    type='button'
+                    className='btn btn-block btn-demo'
+                    onClick={loginUser}
+                    >
+                    {isLoading ? 'loading...' : 'demo app'}
+                </button>
                 <p>
                     {isRegistered ? 'Not yet registered? ' : 'Already registered? '}
                     <button type='button' onClick={toggleMember} className='member-btn'>
