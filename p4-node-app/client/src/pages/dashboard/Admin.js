@@ -68,6 +68,17 @@ const Admin = () => {
   // const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
+  const assignProject = ['Admin', 'User'];
+  // const projectList = projects;
+  const userList = users;
+  const { showSidebar } = useContext(SharedLayoutContext);
+  const navigate = useNavigate();
+
+  const [state, dispatch] = useReducer(reducer, {
+    projectList: projects[0].projectName,
+    assignProject: '',
+    assignUsers: '',
+  });
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
@@ -90,19 +101,6 @@ const Admin = () => {
         console.log(response)
     });
   }, []);
-  
-  const assignProject = ['Admin', 'User'];
-  // const projectList = projects;
-  const userList = users;
-  const { showSidebar } = useContext(SharedLayoutContext);
-  const navigate = useNavigate();
-
-  const [state, dispatch] = useReducer(reducer, {
-    projectList: projects[0].projectName,
-    assignProject: '',
-    assignUsers: '',
-  });
-
 
   const listChange = (event) => {
     dispatch({ type: 'SET_PROJECT_LIST', payload: event.target.value });
@@ -171,7 +169,7 @@ const Admin = () => {
               ))}
             </select>
           <button type='submit' className='btn btn-block'>
-            Save
+            Assign
           </button>
           </div>
       </form>

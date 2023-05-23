@@ -38,7 +38,7 @@ router.post('/login', ( request, response ) => {
             }else{
                 //create token
                 const token = jwt.sign( { id: dbResponse._id, email: dbResponse.email }, SECRET );
-                response.status( 200 ).send({ message: 'Login Successful', token: token, role: dbResponse.role, username: dbResponse.username, id: dbResponse.id });
+                response.status( 200 ).send({ message: 'Login Successful', token: token, role: dbResponse.role, username: dbResponse.username, id: dbResponse.id, email: dbResponse.email });
             };
         });
     });

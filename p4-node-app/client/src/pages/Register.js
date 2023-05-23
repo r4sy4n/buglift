@@ -97,7 +97,6 @@ const Register = () => {
             })
         }else if(regex.test(pwd) && (isRegistered && email === '' && confirmpwd === '') && name !== ''){
             axios.post( `http://localhost:8000/api/v1/auth/login`, { username: name, password: pwd } ).then( response => {
-                console.log(response)
                 setName('');
                 setEmail('');
                 setPassword('');
@@ -107,6 +106,7 @@ const Register = () => {
                 localStorage.setItem('id', response.data.id);
                 localStorage.setItem('role', response.data.role);
                 localStorage.setItem('username', response.data.username);
+                localStorage.setItem('email', response.data.email)
                 setTimeout(() =>{
                     navigate('/'); 
                 }, 600); 
@@ -146,6 +146,7 @@ const Register = () => {
             localStorage.setItem('id', response.data.id);
             localStorage.setItem('role', response.data.role);
             localStorage.setItem('username', response.data.username);
+            localStorage.setItem('email', response.data.email)
             setIsLoading(true);
             setTimeout(() =>{
                 navigate('/'); 

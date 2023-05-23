@@ -70,7 +70,9 @@ function App() {
   // const [tickets, setTickets] = useState(initialTicket);
   const [tickets, setTickets] = useState([]);
   const [projects, setProjects] = useState([]);
-  // const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
+  const id = localStorage.getItem('id'); 
+  const currentUser = users.filter(user => user._id === id );
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
@@ -95,12 +97,13 @@ function App() {
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+      setUsers(response.data.users)
         // console.log(response)
     });
   }, []);
 
   return (
-    <AppContext.Provider value={{projects, setProjects, tickets, setTickets}}>
+    <AppContext.Provider value={{projects, setProjects, tickets, setTickets, currentUser}}>
       <BrowserRouter>
         <Routes>
             <Route path='/' element={<SharedLayout />}>

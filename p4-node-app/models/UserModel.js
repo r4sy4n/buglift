@@ -4,7 +4,7 @@ const UserSchema = mongoose.Schema({
     username: "String",
     email: "String",
     password: "String",
-    role: { type: String, default: 'admin' },
+    role: { type: String, default: 'user' },
     tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }]
 });
 
