@@ -74,7 +74,6 @@ const CreateTicket = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const {tickets, setTickets} = useContext(AppContext);
   const {projects} = useContext(AppContext);
-  // const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
   const [ isLoading, setIsLoading ] = useState(true);
   
@@ -90,12 +89,10 @@ const CreateTicket = () => {
     ticketDescription: '',
     submittedBy: localStorage.getItem('username'),
   };
-  // const {id} = useParams();
+
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      // setProjects(response.data.projects)
       setIsLoading(false);
-      // console.log(response)
     })
   }, []);
   
@@ -143,35 +140,10 @@ const CreateTicket = () => {
           navigate('/tickets');
         }, 600);
       }).catch(error => {
-        console.log(error)
         toast.error(error.response.data.error)
       })
-
-      // addTicket();
-      // toast.success('Ticket Created');
-      // setTimeout(() => {
-      //   navigate('/tickets');
-      // }, 600);
     }
   };
-  
-  // const addTicket = () => {
-  //   let newEntry = {
-  //     id: uuidv4(),
-  //     ticketTitle: state.ticketTitle,
-  //     fromProject: state.nameValues,
-  //     submittedBy: state.submittedBy,
-  //     ticketDescription: state.ticketDescription,
-  //     ticketType: state.typeValues,
-  //     ticketPriority: state.priorityValues,
-  //     ticketStatus: state.statusValues,
-  //     Details: '',
-  //   }
-  //   setTickets ([
-  //     ...tickets,
-  //       newEntry
-  //   ]);
-  // };
 
   if (isLoading) {
     return <Loading center />;
@@ -220,14 +192,6 @@ const CreateTicket = () => {
               }        
             </select>
           </div>
-          {/* <div>
-            <div className='form-label'>Ticket Status</div>
-            <select className='form-select' value={state.statusValues} onChange={statusChange}>
-              {
-                state.ticketStatus.map((status, index) =><option key={index} value={status}>{status}</option>)
-              }        
-            </select>
-          </div> */}
           <button type='submit' className='btn btn-block'>Create Ticket</button>  
         </div>
       </form>

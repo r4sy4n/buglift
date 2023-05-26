@@ -81,7 +81,6 @@ const Register = () => {
 
         if(regex.test(pwd) && pwd === confirmpwd && (!isRegistered && name !== '') && email !== ''){
             axios.post( `http://localhost:8000/api/v1/auth/register`, { username: name, email: email, password: pwd } ).then( response => {
-                console.log(response);
                 setName('');
                 setEmail('');
                 setPassword('');

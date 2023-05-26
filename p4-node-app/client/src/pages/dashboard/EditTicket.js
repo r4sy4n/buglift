@@ -86,12 +86,10 @@ const EditTicket = () => {
   const [submittedBy, setSubmittedBy] = useState('');
   const [ticketId, setTicketId] = useState('');
   const [ isLoading, setIsLoading ] = useState(true);
-  // console.log(tickets)
-  // console.log(projects)
+
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
-      // console.log(response)
     })
   }, []);
   useEffect(() => {
@@ -109,12 +107,6 @@ const EditTicket = () => {
       setIsLoading(false);
     }
   }, [tickets, id]);
-// const filteredProjects = projects.filter(project => project._id === );
-//   const project = filteredProjects.length > 0 ? filteredProjects[0] : null;
-  
-
-  // const projectTickets = tickets.filter(ticket => ticket.fromProject === project._id);
-  // console.log(projectTickets)
 
   const handleChange = (event) => {
     setNameValues(event.target.value);
@@ -158,28 +150,6 @@ const EditTicket = () => {
       }).catch(error => {
         console.log(error)
       })
-      
-      // const updatedTicket = {
-      //   ...selectedTicket,
-      //   project: nameValues,
-      //   submittedBy: submittedBy,
-      //   ticketDescription: ticketDescription,
-      //   ticketType: typeValues,
-      //   ticketPriority: priorityValues,
-      //   ticketStatus: statusValues,
-      //   title: ticketTitle
-      // }
-      // const updatedTickets = tickets.map(ticket => {
-      //   if (ticket._id === id) {
-      //     return updatedTicket;
-      //   }
-      //   return ticket;
-      // });
-      // setTickets(updatedTickets);
-      // toast.success('Ticket Updated');
-      // setTimeout(() => {
-      //   navigate(`/ticketdetails/${id}`);
-      // }, 600);
     }
   }
 
@@ -245,13 +215,6 @@ const EditTicket = () => {
               }        
             </select>
           </div>
-          {/* <label htmlFor='submitted-by' className='form-label'>Submitted by</label>
-          <input 
-            type='text' 
-            id='submitted-by' 
-            value={submittedBy}  
-            className='form-input'
-            onChange={ submittedByChange } disabled></input> */}
           <button type='submit' className='btn btn-block'>Save Changes</button>
           <button type='button' className='cancel-btn btn-block' onClick={cancelHandler}>Cancel</button>
         </div>

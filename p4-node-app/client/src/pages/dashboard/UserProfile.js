@@ -91,7 +91,6 @@ const UserProfile = () => {
       setUser(response.data.user);
       setEmail(response.data.email);
       setIsLoading(false);
-        console.log(response)
     });
   }, []);
 
@@ -108,7 +107,6 @@ const UserProfile = () => {
           username: state.username,
           email: state.email
         }).then( response => {
-          console.log(response)
           setUser(response.data.user);
           setEmail(response.data.email);
           setIsLoading(true);

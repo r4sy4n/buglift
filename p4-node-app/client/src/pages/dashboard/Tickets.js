@@ -110,7 +110,6 @@ p:hover {
 const Tickets = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const navigate = useNavigate();
-  // const {tickets} = useContext(AppContext);
   const [tickets, setTickets] = useState([]);
   const [projects, setProjects] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
@@ -119,7 +118,6 @@ const Tickets = () => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
       setIsLoading(false);
-      // console.log(response)
     })
   }, []);
   
@@ -128,7 +126,6 @@ const Tickets = () => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
       setIsLoading(false);
-      // console.log(response)
     })
   }, []);
 

@@ -98,7 +98,6 @@ const TicketDetails = () => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
       setIsLoading(false);
-      // console.log(response)
     })
   }, []);
   
@@ -124,9 +123,7 @@ const TicketDetails = () => {
   const handleCommentChange = (event) => {
         setComment(event.target.value);
     };
-  // const handleCommenterChange = (event) => {
-  //   setCommenter(event.target.value);
-  // };
+
   const getProjectName = (projectId) => {
     const project = projects.find(project => project._id === projectId);
     return project ? project.projectName : '';
@@ -169,26 +166,6 @@ const TicketDetails = () => {
         </section>
         <hr></hr>
         <section className='grid grid-item'>
-          {/* <div className='flex-item'>
-            <h3>Project Team</h3>
-            <p>Current users on this project</p>
-             <table>
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Role</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tickets.map((ticket, index) => (
-                    <tr>
-                      <td>Russell</td>
-                      <td>Demo Admin</td>                      
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-          </div> */}
           <div className='flex-item'>
             <form className='form' onSubmit={handleSubmit}>
                 <h3>Add a Comment?</h3>
@@ -199,15 +176,12 @@ const TicketDetails = () => {
                     className='form-textarea'
                     onChange={handleCommentChange} required
                     ></textarea>
-                {/* <label htmlFor="commenter" className='form-label'>Commenter: </label>
-                <input type="text" id="commenter" value={commenter} className='form-input' onChange={handleCommenterChange} required /> */}
                 <button type='submit' className='btn btn-block' >Add</button>
             </form>
                 <h3>Messages</h3>
             <table>
                 <thead>
                   <tr>
-                    {/* <th>Commenter</th> */}
                     <th>Message</th>
                     <th>Date Created</th>
                   </tr>
@@ -215,7 +189,6 @@ const TicketDetails = () => {
                 <tbody>
                     {comments.map((comment, index) => (
                         <tr key={index}>
-                        {/* <td>{comment.commenter}</td> */}
                         <td>{comment.text}</td>
                         <td>{comment.date}</td>
                         </tr>

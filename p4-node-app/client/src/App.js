@@ -8,66 +8,9 @@ import { createContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
-export const AppContext = createContext();
-
-// const initialProjects = [
-//   {
-//     id: uuidv4(),
-//     name: "Project A",
-//     description: "This project aims to build a web application for managing inventory",
-//     detail: "",
-//   },
-//   {
-//     id: uuidv4(),
-//     name: "Project B",
-//     description: "This project focuses on developing a machine learning algorithm for predicting customer churn",
-//     detail: "",
-//   },
-//   {
-//     id: uuidv4(),
-//     name: "Project C",
-//     description: "This project involves building a mobile app for ordering food from local restaurants",
-//     detail: "",
-//   },
-// ];
-// const initialTicket = ([
-//     {
-//       id: uuidv4(),
-//       project: "Project A",
-//       title: "Fix login page issue",
-//       ticketDescription: "Please fix login page because it is not working when you are clicking submit",
-//       submittedBy: "John Smith",
-//       ticketType: "Bugs/Error",
-//       ticketStatus: "Open",
-//       ticketPriority: "High",
-//     },
-//     {
-//       id: uuidv4(),
-//       project: "Project B",
-//       title: "Add new feature to dashboard",
-//       ticketDescription: "Please add new chart feature when user opens the dashboard",
-//       submittedBy: "Mary Jones",
-//       ticketType: "Feature Request",
-//       ticketStatus: "In Progress",
-//       ticketPriority: "Medium",
-//     },
-//     {
-//       id: uuidv4(),
-//       project: "Project C",
-//       title: "Update payment system",
-//       ticketDescription: "Please implement gcash and paymaya to our payment system",
-//       submittedBy: "Alex Lee",
-//       ticketType: "Task",
-//       ticketStatus: "Completed",
-//       ticketPriority: "Low",
-//     },
-//   ]);
-
- 
+export const AppContext = createContext(); 
 
 function App() {
-  // const [projects, setProjects] = useState(initialProjects);
-  // const [tickets, setTickets] = useState(initialTicket);
   const [tickets, setTickets] = useState([]);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
@@ -77,14 +20,12 @@ function App() {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
-      // console.log(response)
     })
   }, []);
   
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
-      // console.log(response)
     })
   }, []);
 
@@ -98,7 +39,6 @@ function App() {
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
       setUsers(response.data.users)
-        // console.log(response)
     });
   }, []);
 

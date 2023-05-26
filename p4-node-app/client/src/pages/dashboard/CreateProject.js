@@ -90,13 +90,9 @@ const CreateProject = () => {
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
-      // setUsers(response.data.users)
-        // console.log(response)
     });
   }, []);
   const { showSidebar } = useContext(SharedLayoutContext);
-  // const { projects, setProjects } = useContext(AppContext);
-  // const navigate = useNavigate();
 
   const handleChange = (event) => {
     dispatch({ type: 'SET_VALUES', payload: event.target.value });
@@ -125,22 +121,6 @@ const CreateProject = () => {
       })
     }
   };
-
-      // addProject();
-      // toast.success('Project Created');
-      // setTimeout(() => {
-      //   navigate('/projects');
-      // }, 600);
-    // }
-  // };
-
-  // const addProject = () => {
-  //   let newEntry = {
-  //     projectName: state.projectName,
-  //     description: state.description,
-  //   };
-  //   setProjects([...projects, newEntry]);
-  // };
 
   return (
     <Wrapper>
@@ -192,7 +172,5 @@ const CreateProject = () => {
     </Wrapper>
   );
 };
-
-
 
 export default CreateProject;

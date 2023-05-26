@@ -65,11 +65,9 @@ const reducer = (state, action) => {
 };
 const Admin = () => {
   const {projects} = useContext(AppContext);
-  // const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
   const assignProject = ['Admin', 'User'];
-  // const projectList = projects;
   const userList = users;
   const { showSidebar } = useContext(SharedLayoutContext);
   const navigate = useNavigate();
@@ -82,8 +80,6 @@ const Admin = () => {
 
   useEffect(() => {
     axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
-      // setProjects(response.data.projects)
-      // console.log(response)
       setIsLoading(false);
     })
   }, []);
@@ -97,8 +93,6 @@ const Admin = () => {
     axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
       setUsers(response.data.users)
       setIsLoading(false);
-
-        console.log(response)
     });
   }, []);
 

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useContext } from 'react';
 import { SharedLayoutContext } from './SharedLayout';
 import { useNavigate } from 'react-router-dom';
-// import { AppContext } from "../../App";
 import axios from "axios";
 import Loading from "../../components/Loading";
 const Wrapper = styled.section`
@@ -68,7 +67,6 @@ p:hover {
 const Projects = () => {
   const {showSidebar} = useContext(SharedLayoutContext);
   const navigate = useNavigate();
-  // const {projects} = useContext(AppContext);
   const [projects, setProjects] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
 
