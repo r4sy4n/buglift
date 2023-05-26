@@ -15,7 +15,7 @@ router.get('/tickets', ( request, response ) => {
 router.get('/tickets/:ticketid', ( request, response ) => {
     Ticket.findOne({ _id: request.params.ticketid }).then( dbResponse => {
         if( dbResponse ){
-            response.status( 200 ).send({ dbResponse });
+            response.status( 200 ).send({ tickets: dbResponse });
         }else{
             response.status( 404 ).send({ error: 'No ticket found' });
         };

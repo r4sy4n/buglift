@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const SECRET = 'BUGLIFT';
+const SECRET = process.env.SECRET;
 
 const verify = require('../middlewares/auth');
 
@@ -17,7 +17,7 @@ router.post('/register', ( request, response ) => {
              bcrypt.hash( request.body.password, 10 ).then((hash, err) => {
                 const newUser = new User({ username: request.body.username, email: request.body.email,  password: hash });
                 newUser.save().then( dbResponse => {
-                    response.status( 201 ).send({ dbResponse });
+                    response.status( 201 ).send({ newUser: dbResponse });
                 });
             });
         };

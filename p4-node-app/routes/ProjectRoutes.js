@@ -15,7 +15,7 @@ router.get('/projects', ( request, response ) => {
 router.get('/projects/:projectid', ( request, response ) => {
     Project.findOne({ _id: request.params.projectid }).then( dbResponse => {
         if( dbResponse ){
-            response.status( 200 ).send({ dbResponse });
+            response.status( 200 ).send({ projects: dbResponse });
         }else{
             response.status( 404 ).send({ error: 'No project found' });
         };
@@ -33,7 +33,7 @@ router.post('/projects', ( request, response ) => {
         }else{
                 const newProject = new Project({ projectName: request.body.projectName, description: request.body.description, username: request.body.username });
                 newProject.save().then( dbResponse => {
-                    response.status( 201 ).send({ dbResponse, message: 'Project Created' });
+                    response.status( 201 ).send({ projects: dbResponse, message: 'Project Created' });
                 });
         }
     })
@@ -42,7 +42,7 @@ router.post('/projects', ( request, response ) => {
 //PUT Endpoint to edit project
 router.put('/projects/:projectid', ( request, response ) => {
     Project.findByIdAndUpdate( request.params.projectid, request.body, { new: true } ).then( dbResponse => {;
-        response.status( 200 ).send({ dbResponse });
+        response.status( 200 ).send({ projects: dbResponse });
     });
 });
 
