@@ -1,12 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-mongoose.connect('mongodb+srv://russellramiro:08i3Zkj66NWRIaxE@cluster0.rz5gupu.mongodb.net/bugliftdb');
+require('dotenv').config();
+
+const SECRET_PASSWORD = process.env.SECRET_PASSWORD;
+
+mongoose.connect(`mongodb+srv://russellramiro:${SECRET_PASSWORD}@cluster0.rz5gupu.mongodb.net/bugliftdb`);
 const baseURL = '/api/v1';
 const UserRoutes = require('./routes/UserRoutes');
 const ProjectRoutes = require('./routes/ProjectRoutes');

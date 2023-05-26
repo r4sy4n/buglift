@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET = 'BUGLIFT';
+const SECRET = process.env.SECRET;
 
 const verify = ( request, response, next ) => {
 
