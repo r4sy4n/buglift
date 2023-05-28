@@ -42,7 +42,7 @@ router.post('/tickets', ( request, response ) => {
 //PUT Endpoint to edit ticket
 router.put('/tickets/:ticketid', ( request, response ) => {
     Ticket.findByIdAndUpdate( request.params.ticketid, request.body, { new: true } ).then( dbResponse => {
-        response.status( 200 ).send({ dbResponse, message: 'Changes Saved' });
+        response.status( 200 ).send({ tickets: dbResponse, message: 'Changes Saved' });
     });
 });
 

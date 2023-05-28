@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LandingPage, Register, ErrorPage} from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Dashboard, Tickets, Projects, CreateProject, CreateTicket, EditTicket, SharedLayout, UserProfile, Admin, ProjectDetails, TicketDetails} from './pages/dashboard/';
+import {Dashboard, Tickets, Projects, CreateProject, CreateTicket, EditTicket, SharedLayout, UserProfile, Admin, ProjectDetails, TicketDetails, EditProject} from './pages/dashboard/';
 import { createContext, useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
@@ -53,6 +53,7 @@ function App() {
               <Route path='createproject' element={<CreateProject/>}/>
               <Route path='createticket' element={<CreateTicket/>}/>
               <Route path='editticket/:id' element={<EditTicket/>}/>
+              <Route path='editproject/:id' element={<EditProject/>}/>
               <Route path='projectdetails/:id' element={<ProjectDetails/>}/>
               <Route path='ticketdetails/:id' element={<TicketDetails/>}/>
               <Route path='userprofile' element={<UserProfile/>}/>

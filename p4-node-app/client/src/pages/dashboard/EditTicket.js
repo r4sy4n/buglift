@@ -148,7 +148,6 @@ const EditTicket = () => {
           navigate('/tickets');
         }, 600);
       }).catch(error => {
-        console.log(error)
       })
     }
   }

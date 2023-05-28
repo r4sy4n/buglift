@@ -41,6 +41,9 @@ const Wrapper = styled.section`
     text-decoration: underline;
     color: blue;
   }
+  .edit{
+    margin-top: 2rem;
+  }
   span:hover {
   color: #E21818;
   cursor: pointer;
@@ -102,12 +105,14 @@ const ProjectDetails = () => {
   
   const projectTickets = tickets.filter(ticket => ticket.fromProject === project._id);
    
-  const projectUsers = users.filter(user => user.username === project.username )
+  const projectUsers = users.filter(user => user.username === project.username );
 
   const handleDetailTickets = (id) => {
     navigate(`/ticketdetails/${id}`);
   }
-
+  const handleEdit = (id) => {
+    navigate(`/editproject/${id}`);
+  }
   if (isLoading) {
     return <Loading center />;
     }
@@ -116,6 +121,8 @@ const ProjectDetails = () => {
     <Wrapper>
         <h3>Project Details</h3>
         <span onClick={handleDetail}>Back to list</span>
+        {projects.filter(project => project._id === (id)).map((project, index) => (
+        <p key={index} className='edit' onClick={() => handleEdit(project._id)}><span>Edit Project</span></p>))}
         <section className='grid-item'>
           {projects.filter(project => project._id === (id)).map(project => (
             <div className='grid'>

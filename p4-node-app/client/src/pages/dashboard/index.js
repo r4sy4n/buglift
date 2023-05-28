@@ -9,5 +9,6 @@ import UserProfile from './UserProfile';
 import Admin from './Admin'
 import ProjectDetails from './ProjectDetails';
 import TicketDetails from './TicketDetails';
+import EditProject from './EditProject';
 
-export { Dashboard, Tickets, Projects, EditTicket, CreateTicket, CreateProject, SharedLayout, UserProfile, Admin, ProjectDetails, TicketDetails};
+export { Dashboard, Tickets, Projects, EditTicket, CreateTicket, CreateProject, SharedLayout, UserProfile, Admin, ProjectDetails, TicketDetails, EditProject};

@@ -42,7 +42,7 @@ router.post('/projects', ( request, response ) => {
 //PUT Endpoint to edit project
 router.put('/projects/:projectid', ( request, response ) => {
     Project.findByIdAndUpdate( request.params.projectid, request.body, { new: true } ).then( dbResponse => {;
-        response.status( 200 ).send({ projects: dbResponse });
+        response.status( 200 ).send({ projects: dbResponse, message: 'Changes Saved' });
     });
 });
 
