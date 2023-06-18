@@ -95,3 +95,7 @@ This project is licensed under the MIT License. Feel free to use the code as a r
 
 If you have any questions, suggestions, or just want to say hello, feel free to reach out to me. My contact information can be found within the Buglift app.
 Thank you for visiting the Buglift repository!
+
+## Live Site
+
+https://buglift.netlify.app
