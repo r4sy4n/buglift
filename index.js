@@ -4,7 +4,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 8000;
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const helmet = require('helmet');
+
 
 require('dotenv').config();
 
@@ -21,7 +21,7 @@ const app = express();
 app.use( bodyParser.json() );
 app.use( cors() );
 app.use( morgan('dev') );
-app.use( helmet() );
+
 
 app.use( baseURL, UserRoutes );
 app.use( baseURL, ProjectRoutes );
