@@ -80,7 +80,7 @@ const Projects = () => {
   }
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
       setIsLoading(false);
     })

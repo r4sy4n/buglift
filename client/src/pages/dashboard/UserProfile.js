@@ -87,7 +87,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    axios.get( `http://localhost:8000/api/v1/users/${id}`, config ).then( response =>{
+    axios.get( `https://buglift-app.onrender.com/api/v1/users/${id}`, config ).then( response =>{
       setUser(response.data.user);
       setEmail(response.data.email);
       setIsLoading(false);
@@ -103,7 +103,7 @@ const UserProfile = () => {
   };
   const handleSubmit = (e) => {
       e.preventDefault();
-        axios.put( `http://localhost:8000/api/v1/users/${id}`, {
+        axios.put( `https://buglift-app.onrender.com/api/v1/users/${id}`, {
           username: state.username,
           email: state.email
         }).then( response => {

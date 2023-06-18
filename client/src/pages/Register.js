@@ -80,7 +80,7 @@ const Register = () => {
         const regex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[!\@\-\#\$\.\%\&\*])(?=.*[a-zA-Z]).{8,}$/;   
 
         if(regex.test(pwd) && pwd === confirmpwd && (!isRegistered && name !== '') && email !== ''){
-            axios.post( `http://localhost:8000/api/v1/auth/register`, { username: name, email: email, password: pwd } ).then( response => {
+            axios.post( `https://buglift-app.onrender.com/api/v1/auth/register`, { username: name, email: email, password: pwd } ).then( response => {
                 setName('');
                 setEmail('');
                 setPassword('');
@@ -95,7 +95,7 @@ const Register = () => {
                 setConfirmpassword('');
             })
         }else if(regex.test(pwd) && (isRegistered && email === '' && confirmpwd === '') && name !== ''){
-            axios.post( `http://localhost:8000/api/v1/auth/login`, { username: name, password: pwd } ).then( response => {
+            axios.post( `https://buglift-app.onrender.com/api/v1/auth/login`, { username: name, password: pwd } ).then( response => {
                 setName('');
                 setEmail('');
                 setPassword('');
@@ -139,7 +139,7 @@ const Register = () => {
         setSuccessMessage('');
     };
     const loginUser = () => {
-        axios.post( `http://localhost:8000/api/v1/auth/login`, { username: 'testUser', password: 'Secret123!' } ).then( response => {
+        axios.post( `https://buglift-app.onrender.com/api/v1/auth/login`, { username: 'testUser', password: 'Secret123!' } ).then( response => {
             toast.success(response.data.message);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('id', response.data.id);

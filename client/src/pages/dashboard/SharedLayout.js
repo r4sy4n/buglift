@@ -56,7 +56,7 @@ const SharedLayout = () => {
   };
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+    axios.get( 'https://buglift-app.onrender.com/api/v1/users', config ).then( response =>{
       console.log(response)
     }).catch(error => {
       if (!token) {

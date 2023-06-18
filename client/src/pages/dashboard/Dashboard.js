@@ -66,14 +66,14 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
       setIsLoading(false);
     })
   }, []);
   
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
       setIsLoading(false);
     })

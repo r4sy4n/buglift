@@ -89,7 +89,7 @@ const CreateProject = () => {
   };
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+    axios.get( 'https://buglift-app.onrender.com/api/v1/users', config ).then( response =>{
     });
   }, []);
   const { showSidebar } = useContext(SharedLayoutContext);
@@ -111,7 +111,7 @@ const CreateProject = () => {
     if (!state.projectName || !state.description) {
       toast.error('All fields are required!');
     } else {
-      axios.post( 'http://localhost:8000/api/v1/projects', { projectName: state.projectName, description: state.description, username: state.username } ).then( response => {
+      axios.post( 'https://buglift-app.onrender.com/api/v1/projects', { projectName: state.projectName, description: state.description, username: state.username } ).then( response => {
         toast.success(response.data.message);
         setTimeout(() => {
           navigate('/projects');

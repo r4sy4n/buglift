@@ -88,7 +88,7 @@ const EditTicket = () => {
   const [ isLoading, setIsLoading ] = useState(true);
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
     })
   }, []);
@@ -135,7 +135,7 @@ const EditTicket = () => {
       toast.error('All fields are required!');
     }
     if (ticketTitle && ticketDescription) {
-      axios.put( `http://localhost:8000/api/v1/tickets/${ticketId}`, { 
+      axios.put( `https://buglift-app.onrender.com/api/v1/tickets/${ticketId}`, { 
           "ticketTitle": ticketTitle, 
           "ticketDescription": ticketDescription, 
           "ticketPriority": priorityValues, 

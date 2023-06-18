@@ -91,7 +91,7 @@ const CreateTicket = () => {
   };
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/projects' ).then( response => {
       setIsLoading(false);
     })
   }, []);
@@ -128,7 +128,7 @@ const CreateTicket = () => {
     }
     if (state.ticketTitle && state.ticketDescription && state.submittedBy) {
 
-        axios.post( 'http://localhost:8000/api/v1/tickets', { 
+        axios.post( 'https://buglift-app.onrender.com/api/v1/tickets', { 
           "ticketTitle": state.ticketTitle, 
           "fromProject": state.projectNameValues, 
           "ticketDescription": state.ticketDescription, 

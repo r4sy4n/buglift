@@ -60,7 +60,7 @@ const EditProject = () => {
   const { showSidebar } = useContext(SharedLayoutContext);
   
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
     })
   }, []);
@@ -89,7 +89,7 @@ const EditProject = () => {
       toast.error('All fields are required!');
     }
     if (projectName || description) {
-      axios.put( `http://localhost:8000/api/v1/projects/${projectId}`, { 
+      axios.put( `https://buglift-app.onrender.com/api/v1/projects/${projectId}`, { 
           "projectName": projectName, 
           "description": description, 
         } ).then( response => {
