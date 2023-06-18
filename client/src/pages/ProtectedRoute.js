@@ -4,7 +4,7 @@ import React from 'react';
 const ProtectedRoute = ({children}) => {
     const user = localStorage.getItem('token');
     if(!user){
-        return <Navigate to='landing'/>
+        return <Navigate to='/landing'/>
     }
     return children;
 }
