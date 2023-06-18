@@ -18,13 +18,13 @@ function App() {
   const currentUser = users.filter(user => user._id === id );
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/projects' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/projects' ).then( response => {
       setProjects(response.data.projects)
     })
   }, []);
   
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/tickets' ).then( response => {
+    axios.get( 'https://buglift-app.onrender.com/api/v1/tickets' ).then( response => {
       setTickets(response.data.tickets)
     })
   }, []);
@@ -37,7 +37,7 @@ function App() {
   };
 
   useEffect(() => {
-    axios.get( 'http://localhost:8000/api/v1/users', config ).then( response =>{
+    axios.get( 'https://buglift-app.onrender.com/api/v1/users', config ).then( response =>{
       setUsers(response.data.users)
     });
   }, []);

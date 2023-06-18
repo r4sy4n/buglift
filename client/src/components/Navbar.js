@@ -85,6 +85,7 @@ const Navbar = () => {
         localStorage.removeItem('role');
         localStorage.removeItem('id');
         localStorage.removeItem('username');
+        localStorage.removeItem('email');
       }, 600);
   }
   return (
