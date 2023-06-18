@@ -46,24 +46,6 @@ const Wrapper = styled.section`
 
 const SharedLayout = () => {
   const [showSidebar, setShowsidebar] = useState(true);
-  const navigate = useNavigate();
-
-  const token = localStorage.getItem('token'); 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
-
-  useEffect(() => {
-    axios.get( 'https://buglift-app.onrender.com/api/v1/users', config ).then( response =>{
-      console.log(response)
-    }).catch(error => {
-      if (!token) {
-        navigate('landing');
-      }
-    })
-  }, []);
 
   return (
     <SharedLayoutContext.Provider value={{showSidebar, setShowsidebar}}>

@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LandingPage, Register, ErrorPage} from './pages';
+import { LandingPage, Register, ErrorPage, ProtectedRoute } from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Dashboard, Tickets, Projects, CreateProject, CreateTicket, EditTicket, SharedLayout, UserProfile, Admin, ProjectDetails, TicketDetails, EditProject} from './pages/dashboard/';
@@ -46,7 +46,11 @@ function App() {
     <AppContext.Provider value={{projects, setProjects, tickets, setTickets, currentUser}}>
       <BrowserRouter>
         <Routes>
-            <Route path='/' element={<SharedLayout />}>
+            <Route path='/' element={
+            <ProtectedRoute>
+              <SharedLayout />
+            </ProtectedRoute>
+            }>
               <Route index element={<Dashboard/>}/>
               <Route path='tickets' element={<Tickets/>}/>
               <Route path='projects' element={<Projects/>}/>
